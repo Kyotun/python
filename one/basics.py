@@ -1,1 +1,1 @@
-print("Nice to meet you " + input("Your name: "))
+print("Nice to meet you " + input("Your name: ") + "!")
