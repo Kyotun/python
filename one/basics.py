@@ -12,6 +12,9 @@ print("Thank you.")
 weight = input("Could you enter your weight in kilograms too: ")
 weight_float = float(weight)
 
+bmi = weight_float / (height_float**2)
 #Turn division to str to be able to concat the strings.
-print("Your BMI is: " + str(weight_float/(height_float**2)))
+bmi_string = str(bmi)
+
+print("Your BMI is: " + bmi_string)
 
