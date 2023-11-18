@@ -1,20 +1,21 @@
-#BMI Calculator
+#Week calculator
+#In 1 year there is total of 52 weeks
+#Max year is 90
+one_year_in_weeks = 52
+max_age = 90
 
-print("Hey user.")
+print("Hey User.")
+age = input("Please enter your age: ")
+age_as_int = int(age)
 
-#Input function stores inputs as 'str' in variables.
-#For division we need to type cast from 'str' to 'float'.
-height = input("Please enter your height in meter please: ")
-height_float = float(height)
+#Calculate the actual age in weeks
+age_in_weeks = age_as_int * one_year_in_weeks
 
-print("Thank you.")
+#Calculate the total weeks have been lived
+life_limit_in_weeks = max_age * one_year_in_weeks
 
-weight = input("Could you enter your weight in kilograms too: ")
-weight_float = float(weight)
+#Calculate the total weeks left
+weeks_left = life_limit_in_weeks - age_in_weeks
 
-bmi = weight_float / (height_float**2)
-#Turn division to str to be able to concat the strings.
-bmi_string = str(bmi)
-
-print("Your BMI is: " + bmi_string)
+print(f"You have {weeks_left} weeks left.")
 
