@@ -4,16 +4,20 @@ print("Hey user.")
 
 #Input function stores inputs as 'str' in variables.
 #For division we need to type cast from 'str' to 'float'.
-height = input("Please enter your height in meter please: ")
-height_float = float(height)
+height = float(input("Please enter your height in meter please: "))
+weight = float(input("Could you enter your weight in kilograms too: "))
 
-print("Thank you.")
+bmi = weight/ (height**2)
+print(f"Your BMI is: {bmi}")
 
-weight = input("Could you enter your weight in kilograms too: ")
-weight_float = float(weight)
-
-bmi = weight_float / (height_float**2)
-#Turn division to str to be able to concat the strings.
-bmi_string = str(bmi)
-
-print("Your BMI is: " + bmi_string)
+if bmi < 18.5:
+    print(f"Your BMI is {bmi}, you are underweight.")
+elif bmi < 25:
+    print(f"Your bmi is {bmi}, you have a normal weight.")
+elif bmi < 30:
+    print(f"Your BMI is {bmi}, you are slightly overweight.")
+elif bmi < 35:
+    print(f"Your bmi is {bmi}, you are obese.")
+else:
+    print(f"Your BMI is {bmi}, you are clinically obese.")
+    
