@@ -1,4 +1,4 @@
-#Generate heads or tails with input of 1/0 from user
+#Generate heads or tails.
 
 import random
 
