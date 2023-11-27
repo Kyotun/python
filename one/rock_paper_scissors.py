@@ -30,23 +30,27 @@ scissors = """
 ---.__(___)
 """
 images = [rock, paper, scissors]
+
 print("Hey! Welcome the the rock-paper-scissors game!")
 print("Please type 0 for rock, 1 for paper and 2 for scissors.")
 choise = int(input("Please choose one: "))
 
-choise_random = random.randint(0,2)
-
 if (choise > 2 or choise < 0):
     print("Please enter a valid number.")
-elif choise == choise_random:
-    print(f"Your choice: {images[choise]} \nComputer choice: {images[choise_random]}")
-    print("It's a draw!")
-elif ((choise - choise_random) == 1) or ((choise - choise_random) == -2):
-    print(f"Your choice: {images[choise]} \nComputer choice: {images[choise_random]}")
-    print("You won, congratulations!")
 else:
-    print(f"Your choice: {images[choise]} \nComputer choice: {images[choise_random]}")
-    print("You lost :(.") 
-print(f"Choise: {choise}")
-print(f"Computer: {choise_random}")
+    print(f"Your choice: {choise}")
+    
+    choise_random = random.randint(0,2)
+    print(f"Computers choice: {choise_random}")
 
+    if (choise > 2 or choise < 0):
+        print("Please enter a valid number.")
+    elif choise == choise_random:
+        print(f"Your choice: {images[choise]} \nComputer choice: {images[choise_random]}")
+        print("It's a draw!")
+    elif ((choise - choise_random) == 1) or ((choise - choise_random) == -2):
+        print(f"Your choice: {images[choise]} \nComputer choice: {images[choise_random]}")
+        print("You won, congratulations!")
+    else:
+        print(f"Your choice: {images[choise]} \nComputer choice: {images[choise_random]}")
+        print("You lost :(.") 
