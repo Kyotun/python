@@ -1,4 +1,4 @@
-#Average Height Finder
+#Average Height Calculator
 
 print("Welcome to the average height calculator!")
 heights_input = input("Please enter the heights with whitespace between: ")
