@@ -11,14 +11,13 @@ letter_amount = int(input("How many letters would you like in your password?: ")
 symbol_amount = int(input("How many symbols would you like in your password?: "))
 number_amount = int(input("How many numbers would you like in your password?: "))
 total_len = letter_amount + symbol_amount + number_amount
-password_list = []
+password = ""
 
-def func(pass_list, symbol_list, symbol_amount, str_len):
-    random_index = random.randint(0,len(choosen_list)-1)
-    pass_list.append(symbol_list[random_index])
-    symbol_amount = symbol_amount -1
-    str_len = str_len - 1
-    return symbol_amount, str_len
+def random_char_chooser(password, symbol_list, symbol_amount, str_len):
+    password += str(random.choice(symbol_list))
+    symbol_amount -= 1
+    str_len -= 1
+    return symbol_amount, str_len, password
     
 
 while total_len > 0:
@@ -27,16 +26,14 @@ while total_len > 0:
 
     if random_charlist== 0 and letter_amount > 0: 
         #letters
-        letter_amount, total_len = func(password_list, choosen_list, letter_amount, total_len)
+        letter_amount, total_len, password = random_char_chooser(password, choosen_list, letter_amount, total_len)
     elif random_charlist==1 and number_amount > 0:
         #numbers
-        number_amount, total_len = func(password_list, choosen_list, number_amount, total_len)
+        number_amount, total_len, password = random_char_chooser(password, choosen_list, number_amount, total_len)
     elif random_charlist==2 and symbol_amount > 0:
         #symbols
-        symbol_amount, total_len = func(password_list, choosen_list, symbol_amount, total_len)
+        symbol_amount, total_len, password = random_char_chooser(password, choosen_list, symbol_amount, total_len)
     else:
         pass
-
-password_str = ''.join(password_list)
-print(f"Password is: {password_str}")
+print(f"Password is: {password}")
 
