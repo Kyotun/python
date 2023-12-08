@@ -27,4 +27,3 @@ travel_log_list = [
 
 add_new_country(name=country, time_visited=visits, cities=list_of_cities)
 print(travel_log_list)
-
