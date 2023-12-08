@@ -1,23 +1,16 @@
 # Ceaser Cipher program.
 import alphabet
 
-def encrypt(plain_text, shift_amount):
-    encrypted_text = text_creator(plain_text, shift_amount)
-    print(f"Encrypted text is: {encrypted_text}")
-
-def decrypt(plain_text, shift_amount):
-    decrypted_text = text_creator(plain_text, -shift_amount)
-    print(f"Decrypted text is: {decrypted_text}")
-
-def text_creator(plain_text, shift_amount):
+def caesar_cipher(input_text, shift_amount ,direction):
     text = ""
-    for letter in plain_text:
+    if direction == "decode":
+        shift_amount *= -1
+    for letter in input_text:
         index = alphabet.letter_list.index(letter)
         new_index = index + shift_amount
         shifted_letter = alphabet.letter_list[new_index]
         text += shifted_letter
-    return text
-
+    print(f"{direction}d text is: {text}")
 
 print("Hello, welcome to the Ceaser Cipher!")
 answer = ""
@@ -26,10 +19,7 @@ while answer.lower() != "n":
     message = input("Type the message please: ").lower()
     shift_number = int(input("Please enter the shift number: "))
 
-    if(typ == "encode"):
-        encrypt(plain_text=message, shift_amount=shift_number)
-    else:
-        decrypt(plain_text=message, shift_amount=shift_number)
+    caesar_cipher(input_text=message, shift_amount=shift_number, direction=typ)
     
     answer = input("Do you wanna continue to decode/encode? Y or N: ").lower()
         
