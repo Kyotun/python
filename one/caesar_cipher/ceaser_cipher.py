@@ -3,13 +3,17 @@ import alphabet
 
 def caesar_cipher(input_text, shift_amount ,direction):
     text = ""
+    shift_amount = shift_amount % 26
     if direction == "decode":
         shift_amount *= -1
-    for letter in input_text:
-        index = alphabet.letter_list.index(letter)
-        new_index = index + shift_amount
-        shifted_letter = alphabet.letter_list[new_index]
-        text += shifted_letter
+    for char in input_text:
+        if char in alphabet.letter_list:
+            index = alphabet.letter_list.index(char)
+            new_index = index + shift_amount
+            shifted_letter = alphabet.letter_list[new_index]
+            text += shifted_letter
+        else:
+            text += char
     print(f"{direction}d text is: {text}")
 
 print("Hello, welcome to the Ceaser Cipher!")
@@ -22,5 +26,7 @@ while answer.lower() != "n":
     caesar_cipher(input_text=message, shift_amount=shift_number, direction=typ)
     
     answer = input("Do you wanna continue to decode/encode? Y or N: ").lower()
+
+print("Goodbye!")
         
 
