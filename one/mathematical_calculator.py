@@ -14,38 +14,46 @@ def multiply(number1, number2):
 def divide(number1, number2):
     return number1 / number2
 
+operations = {
+    "+": add,
+    "-": substract,
+    "*": multiply,
+    "/": divide
+}
 
-answer = ""
+will = ""
 output = 0
 
-
-while answer != "n":
-
+def calculator():
+    print("Operations:") 
+    for symbol in operations:
+        print(symbol)
     number1 = int(input("Please enter the first number: "))
-    number2 = int(input("Please enter the second number: "))
+    do_continue = True
 
-    print("Operations:")
-    print("+")
-    print("-")
-    print("*")
-    print("/")
-    operation = input("Please enter the operation: ")
+    while do_continue:
+        operation = input("Please enter the operation: ")
+        if operation not in operations:
+            print("You entered an invalid operation. Please try again.")
+            continue
 
-    if( operation == "+"):
-        output = add(number1=number1, number2=number2)
-    elif( operation == "-"):
-        output = substract(number1=number1, number2=number2)
-    elif( operation == "*"):
-        output = multiply(number1=number1, number2=number2)
-    elif( operation == "/"):
-        output = divide(number1=number1, number2=number2)
-    else:
-        print("You entered an invalid operation. Please try again.")
-        continue
+        number2 = int(input("Please enter the second number: "))
 
-    print(f"The result is: {output}")
+        func = operations[operation]
+        output = func(number1=number1, number2=number2)
 
-    answer = input("Do you wanna continue? 'y' or 'n': ").lower()
+        print(f"{number1} {operation} {number2} = {output}")
+
+        will = input(f"Type 'y' to continue calculating with the answer, type 'n' to start a new calculation, or 'exit' to finish to calculating: ").lower()
+
+        if will == 'y':
+            number1 = output
+        elif will == 'n':
+            do_continue = False
+            calculator()
+        elif will == "exit":
+            print("That was very funny. Take care of yourself, bye!")
+            break
 
 
-print("That was very funny. Take care of yourself, bye!")
+calculator()
