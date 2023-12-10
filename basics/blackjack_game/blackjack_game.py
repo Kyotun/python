@@ -1,88 +1,89 @@
 import random
+import os
 from blackjack_art import logo
 
-cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+def clear_console():
+  os.system('cls' if os.name == 'nt' else 'clear')
 
-def take_card(hand):
-    hand.append(random.choice(cards))
-    return hand
+def take_card():
+  cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
+  return random.choice(cards)
 
 def calculate_score(hand):
-    score = sum(hand)
-    return score
+  if sum(hand) == 21 and len(hand) == 2:
+    return 0
+    
+  if 11 in hand and sum(hand) > 21:
+    hand.remove(11)
+    hand.append(1)
+    
+  return sum(hand)
 
-def ace_hand(hand, score):
-    if score > 21:
-        for index in range(len(hand)):
-            if hand[index] == 11 and sum(hand) > 21:
-                hand[index] = 1
-    score = calculate_score(hand=hand)
-    return hand, score
+
+def compare(user_score, computer_score):
+
+  if user_score > 21 and computer_score > 21:
+    return "You went over. You lost :c"
+
+
+  if user_score == computer_score:
+    return "Draw."
+  elif computer_score == 0:
+    return "Lost, opponent has Blackjack..."
+  elif user_score == 0:
+    return "Win with a Blackjack ;)"
+  elif user_score > 21:
+    return "You went over. You lose :("
+  elif computer_score > 21:
+    return "Opponent went over. You win :)"
+  elif user_score > computer_score:
+    return "You win :)"
+  else:
+    return "You lost :c"
+
 
 def blackjack():
+    
+    print(logo)
+
     user_hand = []
     dealer_hand = []
-
-    game_will = ""
     game_continues = True
 
-    user_hand = take_card(user_hand)
-    dealer_hand = take_card(dealer_hand)
+    for _ in range(2):
+       user_hand.append(take_card())
+       dealer_hand.append(take_card())
 
     while game_continues:
-        user_hand = take_card(user_hand)
-        dealer_hand = take_card(dealer_hand)
-
         user_score = calculate_score(hand=user_hand)
         dealer_score = calculate_score(hand=dealer_hand)
+        print(f"Your cards: {user_hand}, current score: {user_score}")
+        print(f"Computer's first card: {dealer_hand[0]}")
 
-        user_hand, user_score = ace_hand(hand=user_hand, score=user_score)
-        dealer_hand, dealer_score = ace_hand(hand=dealer_hand, score=dealer_score)
-
-        if user_score > 21:
-            print(f"Your final hand: {user_hand}")
-            print(f"Computer's final hand: {dealer_hand}")
-            print(f"{user_score} - {dealer_score}, You lost!")
-
-        elif dealer_score > 21:
-            print(f"Your final hand: {user_hand}")
-            print(f"Computer's final hand: {dealer_hand}")
-            print(f"{user_score} - {dealer_score}, You won!")
-
-        else:
-            print(f"Your cards: {user_hand}")
-            print(f"Computer's cards(s): {dealer_hand[:-1]}")
-
-            will1 = input("Type 'y' to get another card, type 'n' to pass: ")
-
-            if will1 == 'n':
-                print(f"Your final hand: {user_hand}")
-                print(f"Computer's final hand: {dealer_hand}")
-
-                if user_score > dealer_score:
-                    print(f"{user_score} - {dealer_score}, You won!")
-                elif user_score < dealer_score:
-                    print(f"{user_score} - {dealer_score}, You lost!")
-                else:
-                    print(f"{user_score} - {dealer_score}, It's a draw!")
-
-            elif will1 == 'y':
-                continue
-
-        game_will = input("Do you want to play another game? Type 'y' or 'n': ").lower()
-        if game_will == 'y':
+        if user_score == 0 or dealer_score == 0 or user_score > 21:
             game_continues = False
-            blackjack()
         else:
-            break
+            will1 = input("Type 'y' to get another card, type 'n' to pass: ")
+            if will1 == 'y':
+               user_hand.append(take_card())
+            else:
+               game_continues = False
+    while dealer_score != 0 and dealer_score < 17:
+        dealer_hand.append(take_card())
+        dealer_score = calculate_score(dealer_hand)
 
+    print(f"Your final hand: {user_hand}, final score: {user_score}")
+    print(f"Dealers's final hand: {dealer_hand}, final score: {dealer_score}")
+    print(compare(user_score, dealer_score))
 
 
 print(logo)
 print("Welcome to the game Blackjack!")
 answer = input("Do you want to play a game? 'y' or 'n': ")
 
-if answer == 'y':
-    blackjack()
+while answer == 'y':
+  clear_console()
+  blackjack()
+  answer = input("Would you like to play another game? 'y' or 'n': ").lower()
 
 print("See you later then!")
