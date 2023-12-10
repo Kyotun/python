@@ -1,47 +1,49 @@
 import os
 import random
 
+EASY_LEVEL_TURNS = 10
+HARD_LEVEL_TURNS = 5
+
 def clear_console():
   os.system('cls' if os.name == 'nt' else 'clear')
 
-def guess_func(guess, number_to_guess):
+def check_the_guess(guess, number_to_guess):
     if guess > number_to_guess:
         print("Too High")
     elif guess < number_to_guess:
         print("Too low")
     else:
         print("You won!")
-        return True
 
-def set_difficulty(difficulty):
+def set_difficulty():
+    difficulty = input("Choose a difficulty. 'Easy' or 'Hard'?: ").lower()
     if difficulty == "easy":
-        attempt = 10
+        return EASY_LEVEL_TURNS
     elif difficulty == "hard":
-        attempt = 5
-    return attempt
+        return HARD_LEVEL_TURNS
 
 def guess_number_game():
-    difficulty = input("Choose a difficulty. 'Easy' or 'Hard'?: ").lower()
-    attempt_right = set_difficulty(difficulty=difficulty)
+    attempt_right = set_difficulty()
     print("I'm thinking of a number between 1 and 100.")
     random_number = random.randint(1,100)
     guess_turn = 0
+    guess = 0
     user_won = False
 
-    while guess_turn < attempt_right and not user_won:
+    while guess_turn < attempt_right and random_number != guess:
         print(f"You have {attempt_right-guess_turn} attempts remaining to guess the number.")
         guess = int(input("Make a guess: "))
-        user_won = guess_func(guess=guess, number_to_guess=random_number)
+        check_the_guess(guess=guess, number_to_guess=random_number)
 
         guess_turn += 1
-        if guess_turn == attempt_right and user_won == False:
+        if guess_turn == attempt_right and random_number != guess:
             print("You've run out of guesses, you lost...\n")
-        elif user_won == False:
+        elif random_number != guess:
             print("Guess again.\n")
 
 print("Welcome to the Number Guessing Game!")
 will = input("Do you wanna play the game? 'yes' or 'no': ")
-while will != "no":
+while will == "yes":
     clear_console()
     guess_number_game()
     will = input("Do you wanna play the game again? 'yes' or 'no': ")
