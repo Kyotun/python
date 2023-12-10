@@ -3,52 +3,51 @@ from blackjack_art import logo
 
 cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
 
+def take_card(hand):
+    hand.append(random.choice(cards))
+    return hand
+
+def calculate_score(hand):
+    score = sum(hand)
+    return score
+
 def ace_hand(hand, score):
     if score > 21:
         for index in range(len(hand)):
             if hand[index] == 11 and sum(hand) > 21:
                 hand[index] = 1
-    score = sum(hand)
-    return hand, score, score
+    score = calculate_score(hand=hand)
+    return hand, score
 
 def blackjack():
+    user_hand = []
+    dealer_hand = []
+
     game_will = ""
     game_continues = True
 
-    hands = [
-        {
-            "user_hand" : random.choices(cards),
-            "user_score" : 0
-        },
-        {
-            "dealer_hand" : random.choices(cards),
-            "dealer_score" : 0
-        }
-    ]
-
+    user_hand = take_card(user_hand)
+    dealer_hand = take_card(dealer_hand)
 
     while game_continues:
-        hands[0]["user_hand"].append(random.choice(cards))
-        hands[1]["dealer_hand"].append(random.choice(cards))
+        user_hand = take_card(user_hand)
+        dealer_hand = take_card(dealer_hand)
 
-        user_hand = hands[0]["user_hand"]
-        dealer_hand = hands[1]["dealer_hand"]
+        user_score = calculate_score(hand=user_hand)
+        dealer_score = calculate_score(hand=dealer_hand)
 
-        user_score = hands[0]["user_score"] = sum(user_hand)
-        dealer_score = hands[1]["dealer_score"] = sum(dealer_hand)
-
-        user_hand, user_score, hands[0]["user_score"] = ace_hand(hand=user_hand, score=user_score)
-        dealer_hand, dealer_score, hands[1]["dealer_score"] = ace_hand(hand=dealer_hand, score=dealer_score)
+        user_hand, user_score = ace_hand(hand=user_hand, score=user_score)
+        dealer_hand, dealer_score = ace_hand(hand=dealer_hand, score=dealer_score)
 
         if user_score > 21:
             print(f"Your final hand: {user_hand}")
             print(f"Computer's final hand: {dealer_hand}")
-            print("You lost!")
+            print(f"{user_score} - {dealer_score}, You lost!")
 
         elif dealer_score > 21:
             print(f"Your final hand: {user_hand}")
             print(f"Computer's final hand: {dealer_hand}")
-            print("You won!")
+            print(f"{user_score} - {dealer_score}, You won!")
 
         else:
             print(f"Your cards: {user_hand}")
@@ -61,11 +60,11 @@ def blackjack():
                 print(f"Computer's final hand: {dealer_hand}")
 
                 if user_score > dealer_score:
-                    print("You won!")
+                    print(f"{user_score} - {dealer_score}, You won!")
                 elif user_score < dealer_score:
-                    print("You lost!")
+                    print(f"{user_score} - {dealer_score}, You lost!")
                 else:
-                    print("It's a draw!")
+                    print(f"{user_score} - {dealer_score}, It's a draw!")
 
             elif will1 == 'y':
                 continue
