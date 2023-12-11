@@ -1,4 +1,4 @@
-#Treasure Island game
+# Treasure Island game
 from treasure_island_art import logo
 print(logo)
 
@@ -9,7 +9,7 @@ if left_or_right.lower() == "left":
     print("\nAlright.")
     print("You arrived a shore.")
     swim_or_wait = input("Are you gonna swim or wait?\n")
-    if(swim_or_wait.lower() == "wait"):
+    if swim_or_wait.lower() == "wait":
         print("\nGood one!")
         print("Now you have to choose a boat.")
         print("There are 3 boats with different colours...")

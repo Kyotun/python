@@ -1,4 +1,4 @@
-#I apply the things in this document, which I new learned.
+# I apply the things in this document, which I learn.
 
 import random
 
@@ -33,8 +33,3 @@ for card in range(len(user_hand)):
 for card in user_hand:
     print(card)
 
-
-# if user_score > 21:
-#     for card in user_hand:
-#         if card == 11:
-#             user_hand[card] = 1

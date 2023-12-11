@@ -1,4 +1,4 @@
-#Hangman game
+# Hangman game
 import random
 import hangman_words
 import hangman_art
@@ -12,29 +12,27 @@ print(hangman_art.logo)
 print("Welcome to the Hangman game!")
 
 while not end_of_game:
- guessed_letter = input("Please guess a letter: ").lower()
+    guessed_letter = input("Please guess a letter: ").lower()
 
- #Check guessed letter
- for index in range (len(chosen_word)):
-  if chosen_word[index] == guessed_letter:
-   control_list[index] = guessed_letter
- 
- #If there is no matched characters life -= 1
- if guessed_letter not in chosen_word:
-  lives -= 1
+    # Check guessed letter
+    for index in range(len(chosen_word)):
+        if chosen_word[index] == guessed_letter:
+            control_list[index] = guessed_letter
 
- print(f"Life: {lives}")
- print(f"{control_list}")
- print(hangman_art.hangman_pics[lives])
+    # If there is no matched characters life -= 1
+    if guessed_letter not in chosen_word:
+        lives -= 1
 
- #No life left. Game is over!
- if lives == 0:
-  end_of_game = True
-  print("Sorry but you lost :(.")
+    print(f"Life: {lives}")
+    print(f"{control_list}")
+    print(hangman_art.hangman_pics[lives])
 
- #User guessed every char correct. Game is over, user has won!
- if '_' not in control_list:
-  end_of_game = True
-  print("Congratulations. You won!")
+    # No life left. Game is over!
+    if lives == 0:
+        end_of_game = True
+        print("Sorry but you lost :(.")
 
-
+    # User guessed every char correct. Game is over, user has won!
+    if '_' not in control_list:
+        end_of_game = True
+        print("Congratulations. You won!")

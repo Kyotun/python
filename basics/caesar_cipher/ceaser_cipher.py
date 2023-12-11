@@ -2,13 +2,14 @@
 # Encode or decode the given string in the given direction with the given number of character.
 
 # Examples:
-    # Input: encode the string "Hello World" with shift number 9.
-    # Input: decode the string "Ajkak Kakjs" with the shift number 19.
+# Input: encode the string "Hello World" with shift number 9.
+# Input: decode the string "Ajkak Kakjs" with the shift number 19.
 
 import alphabet
 from caesar_art import logo
 
-def caesar_cipher(input_text, shift_amount ,direction):
+
+def caesar_cipher(input_text, shift_amount, direction):
     text = ""
     shift_amount = shift_amount % 26
     if direction == "decode":
@@ -23,6 +24,7 @@ def caesar_cipher(input_text, shift_amount ,direction):
             text += char
     print(f"{direction}d text is: {text}")
 
+
 print(logo)
 print("Hello, welcome to the Ceaser Cipher!")
 answer = ""
@@ -32,9 +34,7 @@ while answer.lower() != "n":
     shift_number = int(input("Please enter the shift number: "))
 
     caesar_cipher(input_text=message, shift_amount=shift_number, direction=typ)
-    
+
     answer = input("Do you wanna continue to decode/encode? Y or N: ").lower()
 
 print("Goodbye!")
-        
-

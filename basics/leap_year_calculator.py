@@ -1,9 +1,9 @@
-#Leap year calculator
-#Calculate if a year leap is
-#Every year that is divisible by 4 with no remainder
+# Leap year calculator
+# Calculate if a year leap is
+# Every year that is divisible by 4 with no remainder
 
-#Except every year that is evenly divisible by 100 with no remainder
-#Unless the year is divisible by 400 with no remainder
+# Except every year that is evenly divisible by 100 with no remainder
+# Unless the year is divisible by 400 with no remainder
 
 print("Hey! This is leap year calculator!")
 year = int(input("Please enter the year: "))

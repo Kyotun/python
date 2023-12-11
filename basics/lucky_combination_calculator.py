@@ -1,4 +1,4 @@
-#Lucky combination calculator(1)
+# Lucky combination calculator(1)
 
 print("Hello User.")
 colour = input("What is your favourite colour?\n")

@@ -1,9 +1,9 @@
-#BMI Calculator(2)
+# BMI Calculator(2)
 
 print("Hey user.")
 
-#Input function stores inputs as 'str' in variables.
-#For division we need to type cast from 'str' to 'float'.
+# Input function stores inputs as 'str' in variables.
+# For division, we need to type cast from 'str' to 'float'.
 height = float(input("Please enter your height in meter please: "))
 weight = float(input("Could you enter your weight in kilograms too: "))
 
