@@ -1,5 +1,5 @@
 #Pizza service calculator
-#Calculate the price of the pizzas
+#Calculate the price of the pizzas for given ingredients and size.
 
 bill = 0
 print("Thank you for choosing us!")

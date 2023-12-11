@@ -1,3 +1,9 @@
+# Generate a number between [1, 100]
+# Print out too low or too high according to the guessed number.
+# If the choosen number is 70, and user guess below 70 the output will be: "Too low"
+# There are two mods. Easy or Hard.
+# Easy mod has 10 right for guessing, Hard mod has 5 right.
+
 import os
 import random
 from guess_the_number_art import logo

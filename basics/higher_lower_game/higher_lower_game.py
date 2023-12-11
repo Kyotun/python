@@ -1,3 +1,8 @@
+#Higher lower game
+#We have a list of celebrities and their informations like follower count, country and description of job.
+#The follower count of these celebrities will be compared and 
+    #according to the answer user will be gain score or lose the game in the first wrong answer.
+
 from higher_lower_data import data
 from higher_lower_art import logo, vs
 import random

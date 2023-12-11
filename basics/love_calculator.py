@@ -1,7 +1,8 @@
 #Love calculator
 
 #Calculate the love score 
-#based on the characters occur in names of a couple
+    #based on the characters occur in names of a couple
+#If the characters in word "true love" occur in names of the couple, point of that couple should be close to 100.
 
 print("Hey! Welcome to the love calculator!")
 name1 = input("Please enter the first name: ")

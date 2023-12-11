@@ -10,6 +10,7 @@ student_scores = {
 
 student_grades = {}
 
+# Iterate every key (names in our situation), evaluate their values and print according to that value some prints.
 for student in student_scores:
     score = student_scores[student]
     if(score > 90):

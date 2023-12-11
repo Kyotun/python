@@ -1,4 +1,5 @@
 #Check if someone can ride with rollercoaster.
+#Pricement differs whether the person is older or younger.P
 
 print("Hey there! You wanne ride with rollercoaster huh?\n Let's see!\n")
 height = int(input("Please enter your height: "))

@@ -1,3 +1,7 @@
+# Blackjack game.
+# The game is builded according to the real life blackjack game
+# See the rules of the blackjack game in web, if you don't know.
+
 import random
 import os
 from blackjack_art import logo

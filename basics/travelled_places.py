@@ -1,4 +1,3 @@
-
 #Add countries and cities that travelled
 
 def add_new_country(name, time_visited, cities):

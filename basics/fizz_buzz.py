@@ -5,6 +5,8 @@
 
 print("Hey, welcome to the fizzbuzz game!\nLet's play!")
 target = int(input("Please enter number for end range: "))
+
+# Order of the if statements is important for to find fizzbuzz or fizz or buzz.
 for number in range(1,target+1):
     if(number % 3 == 0 and number % 5 == 0):
         print("FizzBuzz")

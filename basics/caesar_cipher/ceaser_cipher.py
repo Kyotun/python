@@ -1,4 +1,10 @@
 # Ceaser Cipher program.
+# Encode or decode the given string in the given direction with the given number of character.
+
+# Examples:
+    # Input: encode the string "Hello World" with shift number 9.
+    # Input: decode the string "Ajkak Kakjs" with the shift number 19.
+
 import alphabet
 from caesar_art import logo
 
