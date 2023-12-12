@@ -57,17 +57,22 @@ def resource_regulator(order):
         resources[ingredient] -= MENU[order]["ingredients"][ingredient]
 
 
+def money_taker():
+    print("Please insert coins")
+    total_money_inserted = int(input("How many quarters?: ")) * 0.01
+    total_money_inserted += int(input("How many dimes?: ")) * 0.1
+    total_money_inserted += int(input("How many nickles?: ")) * 0.05
+    total_money_inserted += int(input("How many pennies?: ")) * 0.25
+    return total_money_inserted
+
+
 def money_calculator(order):
     """Take inserted money and order as input.
         If the inserted money >= cost of the order, print the prepared object and change amount.
         If money is not enough prints it's not enough."""
     order = format_input(user_input=order)
     cost = MENU[order]["cost"]
-    print("Please insert coins")
-    total_money_inserted = int(input("How many quarters?: ")) * 0.01
-    total_money_inserted += int(input("How many dimes?: ")) * 0.1
-    total_money_inserted += int(input("How many nickles?: ")) * 0.05
-    total_money_inserted += int(input("How many pennies?: ")) * 0.25
+    total_money_inserted = money_taker()
     change = round(total_money_inserted - cost, 2)
     if total_money_inserted < cost:
         print("Sorry that's not enough money. Money refunded.")
