@@ -6,14 +6,12 @@ def money_calculator(order):
         If the inserted money >= cost of the order, print the prepared object and change amount.
         If money is not enough prints it's not enough."""
     order = format_input(user_input=order)
-    total_money_inserted = 0
     cost = MENU[order]["cost"]
     print("Please insert coins")
-    quarters = int(input("How many quarters?: "))
-    dimes = int(input("How many dimes?: "))
-    nickles = int(input("How many nickles?: "))
-    pennies = int(input("How many pennies?: "))
-    total_money_inserted = quarters * 0.01 + dimes * 0.1 + nickles * 0.05 + pennies * 0.25
+    total_money_inserted = int(input("How many quarters?: ")) * 0.01
+    total_money_inserted += int(input("How many dimes?: ")) * 0.1
+    total_money_inserted += int(input("How many nickles?: ")) * 0.05
+    total_money_inserted += int(input("How many pennies?: ")) * 0.25
     change = round(total_money_inserted - cost, 2)
     if total_money_inserted < cost:
         print("Sorry that's not enough money. Money refunded.")
@@ -34,9 +32,8 @@ def report():
 
 def resource_regulator(order):
     """Decreases the amount of ingredients for prepared order."""
-    resources["milk"] -= MENU[order]["ingredients"]["milk"]
-    resources["water"] -= MENU[order]["ingredients"]["water"]
-    resources["coffee"] -= MENU[order]["ingredients"]["coffee"]
+    for ingredient in MENU[order]["ingredients"]:
+        resources[ingredient] -= MENU[order]["ingredients"][ingredient]
 
 
 def is_resource_sufficient(order):
@@ -44,16 +41,11 @@ def is_resource_sufficient(order):
         Returns True if it's enough.
         Returns False if it's not enough."""
     order = format_input(user_input=order)
-    is_sufficient = False
-    if resources["milk"] < MENU[order]["ingredients"]["milk"]:
-        print(f"Sorry there is not enough milk for {order}.")
-    elif resources["water"] < MENU[order]["ingredients"]["water"]:
-        print(f"Sorry there is not enough water for {order}.")
-    elif resources["coffee"] < MENU[order]["ingredients"]["coffee"]:
-        print(f"Sorry there is not enough coffee for {order}.")
-    else:
-        is_sufficient = True
-    return is_sufficient
+    for ingredient in MENU[order]["ingredients"]:
+        if resources[ingredient] < MENU[order]["ingredients"][ingredient]:
+            print(f"Sorry there is not enough {ingredient} for {order}")
+            return False
+    return True
 
 
 def refill_water():
