@@ -51,12 +51,6 @@ def format_input(user_input):
         print("Input is invalid.")
 
 
-def resource_regulator(order):
-    """Decreases the amount of ingredients for prepared order."""
-    for ingredient in MENU[order]["ingredients"]:
-        resources[ingredient] -= MENU[order]["ingredients"][ingredient]
-
-
 def money_taker():
     print("Please insert coins")
     total_money_inserted = int(input("How many quarters?: ")) * 0.01
@@ -64,6 +58,14 @@ def money_taker():
     total_money_inserted += int(input("How many nickles?: ")) * 0.05
     total_money_inserted += int(input("How many pennies?: ")) * 0.25
     return total_money_inserted
+
+
+def make_coffee(order):
+    """Decreases the amount of ingredients for prepared order.
+            At the end prints the order."""
+    for ingredient in MENU[order]["ingredients"]:
+        resources[ingredient] -= MENU[order]["ingredients"][ingredient]
+    print(f"Here is your {order}. Enjoy!")
 
 
 def money_calculator(order):
@@ -77,10 +79,9 @@ def money_calculator(order):
     if total_money_inserted < cost:
         print("Sorry that's not enough money. Money refunded.")
     else:
-        resource_regulator(order=order)
         resources["money"] += cost
         print(f"Here is ${change} in change.")
-        print(f"Here is your {order}. Enjoy!")
+        make_coffee(order=order)
 
 
 def is_resource_sufficient(order):
