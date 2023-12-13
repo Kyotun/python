@@ -1,17 +1,20 @@
 from turtle import Turtle, Screen
+import random
 
 alex = Turtle()
-alex.shape("arrow")
+alex.shape("turtle")
 alex.color("red")
+directions = [0, 90, 180, 270, 360]
+colours = ["CornflowerBlue", "DarkOrchid", "IndianRed", "DeepSkyBlue", "LightSeaGreen", "wheat", "SlateGray", "SeaGreen"]
+alex_speed_list = ["fastest", "fast", "slow", "normal", "slowest"]
 
-def draw_shape(num_of_side):
-    angle = 360 / num_of_side
-    for _ in range(num_of_side):
-        alex.forward(100)
-        alex.left(angle)
-
-for shape_side in range(3,50):
-    draw_shape(shape_side)
+pen_color = (random.randint(0,255), random.randint(0,255), random.randint(0,255) )
+for _ in range(300):
+    alex.pensize(random.randint(1,15))
+    alex.color(random.choice(colours))
+    alex.speed(random.choice(alex_speed_list))
+    alex.forward(20)
+    alex.setheading(random.choice(directions))
 
 
 screen = Screen()
