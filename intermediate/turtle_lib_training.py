@@ -4,14 +4,14 @@ alex = Turtle()
 alex.shape("arrow")
 alex.color("red")
 
-for _ in range(10):
-    alex.penup()
-    alex.forward(10)
-    alex.pendown()
-    alex.forward(10)
+def draw_shape(num_of_side):
+    angle = 360 / num_of_side
+    for _ in range(num_of_side):
+        alex.forward(100)
+        alex.left(angle)
 
-
-
+for shape_side in range(3,50):
+    draw_shape(shape_side)
 
 
 screen = Screen()
