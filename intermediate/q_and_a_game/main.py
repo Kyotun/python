@@ -5,8 +5,8 @@ import random
 
 question_bank = []
 for question in question_data:
-    question_text = question["text"]
-    answer = question["answer"]
+    question_text = question["question"]
+    answer = question["correct_answer"]
     new_question = Question(q_text=question_text, q_answer=answer)
     question_bank.append(new_question)
 
