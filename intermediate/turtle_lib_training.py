@@ -2,26 +2,41 @@ import turtle as t
 import random
 import colorgram
 
-colors =  colorgram.extract('image.jpeg', 30)
+rgb_colors = []
+colors = colorgram.extract('/Users/kyotun/Desktop/python_training/intermediate/image.jpeg', 30)
+for color in colors:
+    r = color.rgb.r
+    g = color.rgb.g
+    b = color.rgb.b
+    rgb_colors.append((r, g, b))
 
-def random_color():
-    r = random.randint(0,255)
-    g = random.randint(0,255)
-    b = random.randint(0,255)
-    return (r, g, b)
-
-
-def draw_spirograph(size_of_gap):
-    for _ in range(int(360/size_of_gap)):
-        alex.color(random_color())
-        alex.circle(50)
-        alex.setheading(alex.heading() + size_of_gap)
+dot_count = 100
 
 t.colormode(255)
 alex = t.Turtle()
 alex.shape("turtle")
-heading = 5
 alex.speed("fastest")
+alex.penup()
+
+def draw_painting(width, height, step, dot_diameter):
+    alex.setheading(225)
+    alex.forward(300)
+    alex.setheading(0)
+    dot_count = width * height
+    for dot in range (1,dot_count+1):
+        alex.color(random.choice(rgb_colors))
+        alex.dot(dot_diameter)
+        alex.forward(step)
+        if dot % width == 0 and dot != dot_count:
+            alex.left(90)
+            alex.forward(step)
+            alex.left(90)
+            alex.forward(step * width)
+            alex.left(180)
+
+draw_painting(5, 7, 50, 20)
+
+
 
 
 
