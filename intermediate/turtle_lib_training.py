@@ -1,5 +1,8 @@
 import turtle as t
 import random
+import colorgram
+
+colors =  colorgram.extract('image.jpeg', 30)
 
 def random_color():
     r = random.randint(0,255)
@@ -20,7 +23,7 @@ alex.shape("turtle")
 heading = 5
 alex.speed("fastest")
 
-draw_spirograph(5)
+
 
 screen = t.Screen()
 screen.exitonclick()
