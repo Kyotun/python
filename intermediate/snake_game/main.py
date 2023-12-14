@@ -8,22 +8,19 @@ screen.bgcolor("black")
 screen.title("Snake Game")
 screen.tracer(0)
 
-snake = Snake()
-snake.segment_number = 4
-snake.create_snake()
-
-screen.update()
-
+snake = Snake(segment_number=5)
+screen.listen()
+screen.onkey(snake.up, "Up")
+screen.onkey(snake.down, "Down")
+screen.onkey(snake.left, "Left")
+screen.onkey(snake.right, "Right")
 
 is_on = True
 while is_on:
     screen.update()
     time.sleep(0.1)
+
+    snake.move()
     
-    for segment_number in range(len(snake.segments)-1, 0, -1):
-        new_x = snake.segments[segment_number - 1].xcor()
-        new_y = snake.segments[segment_number - 1].ycor()
-        snake.segments[segment_number].goto(new_x,new_y)
-    snake.segments[0].forward(20)
     
 screen.exitonclick()
