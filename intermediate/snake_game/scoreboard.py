@@ -12,6 +12,7 @@ class Scoreboard(Turtle):
         self.score = 0
         self.color("white")
         self.update_score_board()
+        self.move_speed = 0.1
     
 
     def game_over(self):
@@ -27,3 +28,4 @@ class Scoreboard(Turtle):
         self.clear()
         self.score += 1
         self.update_score_board()
+        self.move_speed *= 0.9

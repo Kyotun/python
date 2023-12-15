@@ -17,6 +17,7 @@ class Snake:
         self.segments = []
         self.create_snake()
         self.head = self.segments[0]
+        self.move_speed = 0.1
 
 
     def check_collision(self):
