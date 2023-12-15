@@ -38,6 +38,10 @@ while is_on:
         is_on = False
         score_board.game_over()
 
+    if snake.check_collision():
+        is_on = False
+        score_board.game_over()
+
         
 
     

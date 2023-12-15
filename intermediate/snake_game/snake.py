@@ -18,6 +18,12 @@ class Snake:
         self.head = self.segments[0]
 
 
+    def check_collision(self):
+        for segment in self.segments[1:]:
+            if self.head.distance(segment) < 10:
+                return True
+
+
     def check_wall(self):
         coordinate_x = self.segments[0].xcor()
         coordinate_y = self.segments[0].ycor()
@@ -45,6 +51,7 @@ class Snake:
 
     def extend(self):
         self.add_segment(self.segments[-1].position())
+        self.segment_number += 1
 
 
     def move(self):
