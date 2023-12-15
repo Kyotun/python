@@ -32,6 +32,7 @@ while is_on:
     if snake.head.distance(food) < 15 :
         food.refresh()
         score_board.increase_score()
+        snake.extend()
     
     if snake.check_wall():
         is_on = False

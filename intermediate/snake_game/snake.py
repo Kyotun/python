@@ -19,24 +19,32 @@ class Snake:
 
 
     def check_wall(self):
-        coordinate_x = self.head.xcor()
-        coordinate_y = self.head.ycor()
-        distance_x = abs(coordinate_x - self.screen_width/2)
-        distance_y = abs(coordinate_y - self.screen_heigth/2)
+        coordinate_x = self.segments[0].xcor()
+        coordinate_y = self.segments[0].ycor()
+        distance_x = abs(abs(coordinate_x) - self.screen_width/2)
+        distance_y = abs(abs(coordinate_y) - self.screen_heigth/2)
         if distance_x < 20 or distance_y < 20:
             return True
+
+
+    def add_segment(self, position):
+        new_segment = Turtle(shape="square")
+        new_segment.color("white")
+        new_segment.penup()
+        new_segment.goto(position)
+        self.segments.append(new_segment)
 
 
     def create_snake(self):
         coordinate_x = 0
         coordinate_y = 0
         for segment in range (self.segment_number):
-            new_segment = Turtle(shape="square")
-            new_segment.color("white")
-            new_segment.penup()
-            new_segment.goto(coordinate_x, coordinate_y)
-            self.segments.append(new_segment)
+            self.add_segment((coordinate_x, coordinate_y))
             coordinate_x -= 20
+        
+
+    def extend(self):
+        self.add_segment(self.segments[-1].position())
 
 
     def move(self):
