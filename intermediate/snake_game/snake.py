@@ -9,12 +9,22 @@ LEFT = 180
 RIGHT = 0
 
 class Snake:
-    def __init__(self, segment_number):
+    def __init__(self, segment_number, screen_width, screen_heigth):
         self.segment_number = segment_number
+        self.screen_width = screen_width
+        self.screen_heigth = screen_heigth
         self.segments = []
         self.create_snake()
         self.head = self.segments[0]
 
+
+    def check_wall(self):
+        coordinate_x = self.head.xcor()
+        coordinate_y = self.head.ycor()
+        distance_x = abs(coordinate_x - self.screen_width/2)
+        distance_y = abs(coordinate_y - self.screen_heigth/2)
+        if distance_x < 20 or distance_y < 20:
+            return True
 
 
     def create_snake(self):
