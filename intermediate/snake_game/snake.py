@@ -1,7 +1,8 @@
 from turtle import Turtle
 import random
 
-MOVE_DISTANCE = 20
+MOVE_DISTANCE = WALL_DISTANCE = SEGMENT_SIZE = 20
+COLLISION_DISTANCE = 10
 COLORS = ["red", "purple", "blue", "pink", "orange", "green"]
 UP = 90
 DOWN = 270
@@ -20,7 +21,7 @@ class Snake:
 
     def check_collision(self):
         for segment in self.segments[1:]:
-            if self.head.distance(segment) < 10:
+            if self.head.distance(segment) < COLLISION_DISTANCE:
                 return True
 
 
@@ -29,12 +30,13 @@ class Snake:
         coordinate_y = self.segments[0].ycor()
         distance_x = abs(abs(coordinate_x) - self.screen_width/2)
         distance_y = abs(abs(coordinate_y) - self.screen_heigth/2)
-        if distance_x < 20 or distance_y < 20:
+        if distance_x < WALL_DISTANCE or distance_y < WALL_DISTANCE:
             return True
 
 
     def add_segment(self, position):
         new_segment = Turtle(shape="square")
+        new_segment.speed("fastest")
         new_segment.color("white")
         new_segment.penup()
         new_segment.goto(position)
@@ -46,7 +48,7 @@ class Snake:
         coordinate_y = 0
         for segment in range (self.segment_number):
             self.add_segment((coordinate_x, coordinate_y))
-            coordinate_x -= 20
+            coordinate_x -= SEGMENT_SIZE
         
 
     def extend(self):

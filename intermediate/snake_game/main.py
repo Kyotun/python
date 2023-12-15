@@ -4,8 +4,8 @@ from food import Food
 from scoreboard import Scoreboard
 import time
 
-SCREEN_WIDTH = 600
-SCREEN_HEIGTH = 600
+SCREEN_WIDTH = 1000
+SCREEN_HEIGTH = 1000
 screen = Screen()
 screen.setup(width=SCREEN_WIDTH, height=SCREEN_HEIGTH)
 screen.bgcolor("black")
