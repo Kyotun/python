@@ -10,6 +10,8 @@ STARTING_MOVE_DISTANCE = 5
 class CarManager(Turtle):
     def __init__(self):
         super().__init__()
+        self.hideturtle()
+        self.penup()
         self.car_speed = MOVE_INCREMENT
         self.coordinates = []
         self.all_cars = []
