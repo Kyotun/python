@@ -45,6 +45,14 @@ class Snake:
         self.segments.append(new_segment)
 
 
+    def reset(self):
+        for segment in self.segments:
+            segment.goto(self.screen_width + 100, self.screen_heigth + 100)
+        self.segments.clear()
+        self.create_snake()
+        self.head = self.segments[0]
+
+
     def create_snake(self):
         coordinate_x = 0
         coordinate_y = 0

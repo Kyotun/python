@@ -35,12 +35,12 @@ while is_on:
         snake.extend()
     
     if snake.check_wall():
-        is_on = False
-        score_board.game_over()
+        score_board.reset()
+        snake.reset()
 
     if snake.check_collision():
-        is_on = False
-        score_board.game_over()
+        score_board.reset()
+        snake.reset()
 
         
 
