@@ -48,6 +48,10 @@ def game():
             player.go_to_start()
             car_manager.level_up()
             scoreboard.increase_score()
+        
+        if player.at_border():
+            player.go_to_start()
+
 
 user_input = ""
 while user_input != "q":

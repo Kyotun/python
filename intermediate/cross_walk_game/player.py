@@ -34,5 +34,8 @@ class Player(Turtle):
     def is_at_finish(self):
         return self.ycor() > FINISH_LINE_Y
     
+    def at_border(self):
+        return self.ycor() < -SCREEN_HEIGTH/2 or self.xcor() > SCREEN_WIDTH/2
+    
     def go_to_start(self):
         self.goto(STARTING_POSITION)
