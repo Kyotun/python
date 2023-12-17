@@ -1,7 +1,8 @@
 from turtle import Turtle
 import random
 
-MOVE_DISTANCE = WALL_DISTANCE = SEGMENT_SIZE = 20
+MOVE_DISTANCE = SEGMENT_SIZE = 20
+WALL_DISTANCE = 10
 COLLISION_DISTANCE = 10
 COLORS = ["red", "purple", "blue", "pink", "orange", "green"]
 UP = 90
