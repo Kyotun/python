@@ -25,5 +25,5 @@ class ScoreBoard(Turtle):
         self.write(f"Level: {self.level}", align=ALIGNMENT, font=FONT)
     
     def game_over(self):
-        self.goto(0,0)
+        self.goto(0,SCREEN_HEIGHT/2 - GAP)
         self.write("GAME OVER!", align="center", font=FONT)
