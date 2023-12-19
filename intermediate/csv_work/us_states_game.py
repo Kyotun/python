@@ -28,10 +28,7 @@ def game():
             answer_state = screen.textinput(title=f"{score}/{states_number} States Correct", prompt="Can you guess an another State?").title()
 
         if answer_state.lower() == "quit" or answer_state.lower() == "exit":
-            learn_states = []
-            for state in all_states:
-                if state not in known_states:
-                    learn_states.append(state)
+            learn_states = [state for state in all_states if state not in known_states]
 
             # Save the states which should be learned in .csv format.
             write_data = pd.DataFrame()
