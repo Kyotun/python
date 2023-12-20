@@ -6,7 +6,7 @@ RED = "#e7305b"
 GREEN = "#9bdeac"
 YELLOW = "#f7f5dd"
 FONT_NAME = "Courier"
-WORK_MIN = 1
+WORK_MIN = 25
 WORK_SEC = WORK_MIN * 60
 SHORT_BREAK_MIN = 5
 SHORT_BREAK_SEC = SHORT_BREAK_MIN * 60
@@ -18,8 +18,10 @@ timer = None
 # ---------------------------- TIMER RESET ------------------------------- # 
 def reset_timer():
     global reps
+    reps = 0
     window.after_cancel(timer)
-    reps -= 1
+    canvas.itemconfig(timer_text, text="00:00")
+    show_text.config(text="Timer", fg=GREEN, bg=YELLOW)
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
     global reps
