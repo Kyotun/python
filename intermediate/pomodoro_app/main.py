@@ -17,7 +17,9 @@ timer = None
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 def reset_timer():
+    global reps
     window.after_cancel(timer)
+    reps -= 1
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
     global reps
@@ -25,13 +27,13 @@ def start_timer():
     
     if reps % 8 == 0:
         count_down(LONG_BREAK_SEC)
-        timer.config(text="It's time for a long break...", fg=RED)
+        show_text.config(text="It's time for a long break...", fg=RED)
     elif reps % 2 == 0:
         count_down(SHORT_BREAK_SEC)
-        timer.config(text="It's time for a 'kurze' Pause ;)", fg=PINK)
+        show_text.config(text="It's time for a 'kurze' Pause ;)", fg=PINK)
     else:
         count_down(WORK_SEC)
-        timer.config(text="Have a nice session!", fg=GREEN)
+        show_text.config(text="Have a nice session!", fg=GREEN)
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
 import time
 def count_down(count):
@@ -53,9 +55,9 @@ window = Tk()
 window.title("Pomodoro App von Kyotun")
 window.config(padx=100, pady=50, bg=YELLOW)
 
-timer = Label(text="Timer", font=(FONT_NAME, 50))
-timer.config(fg=GREEN, bg=YELLOW)
-timer.grid(row=0, column=1)
+show_text = Label(text="Timer", font=(FONT_NAME, 50))
+show_text.config(fg=GREEN, bg=YELLOW)
+show_text.grid(row=0, column=1)
 
 canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
 tomato_img = PhotoImage(file="/Users/kyotun/Desktop/python/intermediate/pomodoro_app/tomato.png")
