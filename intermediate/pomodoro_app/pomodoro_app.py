@@ -21,7 +21,9 @@ timer = None
 
 # ---------------------------- MUSIC ------------------------------- #
 
-playlist = ("intermediate/pomodoro_app/musics/experience.mp3",
+playlist = ("intermediate/pomodoro_app/rain_musics/rain1.mp3",
+            "intermediate/pomodoro_app/rain_musics/rain2.mp3",
+            "intermediate/pomodoro_app/musics/experience.mp3",
             "intermediate/pomodoro_app/musics/foggy_today.mp3",
             "intermediate/pomodoro_app/musics/idea1.mp3",
             "intermediate/pomodoro_app/musics/idea22.mp3",
@@ -74,7 +76,7 @@ music_thread = threading.Thread(target=play_background_sound, args=(playlist,))
 music_thread.start()
 
 def go_forward():
-    global currently_playing_song
+    global currently_playing_song, paused
     # Stop the current song
     pygame.mixer.music.stop()
 
@@ -87,9 +89,10 @@ def go_forward():
     pygame.mixer.music.load(currently_playing_song)
     pygame.mixer.music.play()
     highlight_current_song(current_song=currently_playing_song)
+    paused = False
 
 def go_backward():
-    global currently_playing_song
+    global currently_playing_song, paused
     # Stop the current song
     pygame.mixer.music.stop()
 
@@ -102,6 +105,7 @@ def go_backward():
     pygame.mixer.music.load(currently_playing_song)
     pygame.mixer.music.play()
     highlight_current_song(current_song=currently_playing_song)
+    paused = False
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 def reset_timer():
