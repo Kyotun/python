@@ -5,16 +5,18 @@ import pandas as pd
 data = pd.read_csv("/Users/kyotun/Desktop/python/intermediate/nato_example/nato_phonetic_alphabet.csv")
 phonetic_dict = {row.letter:row.code for (index, row) in data.iterrows()}
 
-is_on = True
+
 phonetic_code_list = []
-while is_on:
+def generate_phonetic():
+    name = input("Please enter your name: ").upper()
     try:
-        name = input("Please enter your name: ").upper()
         phonetic_code_list = [phonetic_dict[letter] for letter in name]
     except KeyError:
         print("Sorry, only letters in alphabet please.")
+        generate_phonetic()
     else:
         print("Thank you for the entry.")
         print("The phonetic code is like this:")
         print(phonetic_code_list)
-        is_on = False
+        
+generate_phonetic()
