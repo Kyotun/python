@@ -1,1 +1,10 @@
-{"Amazon": {"email": "test@gmail.com", "password": "6*C)iJVNk5!mmH)+"}}
+{
+    "Google": {
+        "email": "example@gmail.com",
+        "password": "9&%go41tiK$LOz)w"
+    },
+    "facebook": {
+        "email": "example@gmail.com",
+        "password": "06#(bhABht52tAO#"
+    }
+}
