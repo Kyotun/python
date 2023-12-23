@@ -1,6 +1,7 @@
 from tkinter import *
 from tkinter import messagebox
 import random
+import json
 from password_generator import generate_new_password
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password():
@@ -14,7 +15,14 @@ def save_password():
     website = website_entry.get()
     password = password_entry.get()
     
-    if len(email) or len(website) or len(website) <=1:
+    new_data_to_dump = {
+        website: {
+            "email": email,
+            "password": password
+        }
+    }
+    
+    if len(email) <= 1 or len(website) <= 1 or len(password) <=1:
         messagebox.showwarning(title="Missing Information!", message="Length of any kind of information cannot be shorter than 2 characters.")
     else:
         answer = messagebox.askokcancel(title="Information!", message=f"""Details entered:
@@ -22,8 +30,8 @@ def save_password():
                             \nPassword: {password} 
                             \nWebsite: {website}""")
         if answer:
-            with open("intermediate/password_manager/data.txt", mode="a") as file:
-                file.write(f"{website_entry.get()} -- {email_username_entry.get()} -- {password_entry.get()}\n")
+            with open("intermediate/password_manager/data.json", mode="w") as file:
+                json.dump(new_data_to_dump, file)
                 website_entry.delete(0,END)
                 email_username_entry.delete(0,END)
                 password_entry.delete(0,END)
