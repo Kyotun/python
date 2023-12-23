@@ -30,24 +30,30 @@ def save_password():
                             \nPassword: {password} 
                             \nWebsite: {website}""")
         if answer:
-            with open("/Users/kyotun/Desktop/python/intermediate/password_manager/data.json", mode="r") as file:
-                # Load the existed json data.
-                loaded_json_data = json.load(file) # Loading a json file. (It will be loaded as dict)
-                
+            try:
+                with open("/Users/kyotun/Desktop/python/intermediate/password_manager/data.json", mode="r") as file:
+                    # Load the existed json data.
+                    loaded_json_data = json.load(file) # Loading a json file. (It will be loaded as dict)
+            except FileNotFoundError:
+                with open("/Users/kyotun/Desktop/python/intermediate/password_manager/data.json", mode="w") as file:
+                    # Dump the updated data to the same/different json data.
+                    json.dump(new_data_to_dump, file, indent=4)
+                    file.close()
+            else:
                 # Update the json data with the given inputs from the user.
                 loaded_json_data.update(new_data_to_dump)
                 file.close()
                 
-            with open("/Users/kyotun/Desktop/python/intermediate/password_manager/data.json", mode="w") as file:
-                # Dump the updated data to the same/different json data.
-                json.dump(loaded_json_data, file, indent=4)
-                file.close()
-                
-            website_entry.delete(0,END)
-            email_username_entry.delete(0,END)
-            password_entry.delete(0,END)
-            website_entry.focus()
-            messagebox.showinfo(title="Confirmation", message="Informations are saved!")
+                # Open the json data with write mode and dump the updated data.
+                with open("/Users/kyotun/Desktop/python/intermediate/password_manager/data.json", mode="w") as file:
+                    json.dump(loaded_json_data, file, indent=4)
+                    file.close()
+            finally:
+                website_entry.delete(0,END)
+                email_username_entry.delete(0,END)
+                password_entry.delete(0,END)
+                website_entry.focus()
+                messagebox.showinfo(title="Confirmation", message="Informations are saved!")
         else:
             messagebox.showinfo(title="Acknowledgement", message="Informations are not saved.")
 # ---------------------------- UI SETUP ------------------------------- #
