@@ -3,6 +3,27 @@ from tkinter import messagebox
 import random
 import json
 from password_generator import generate_new_password
+# ---------------------------- SEARCH ------------------------------------------- #
+def search_info():
+    website = website_entry.get()
+    try:
+        with open("/Users/kyotun/Desktop/python/intermediate/password_manager/data.json", mode="r") as file:
+            # Load the existed json data.
+            loaded_json_data = json.load(file)
+    except FileNotFoundError:
+        messagebox.showerror(title="File Error", message="No Data File Found")
+    else:
+        if website in loaded_json_data:
+            password = loaded_json_data[website]["password"]
+            email = loaded_json_data[website]["email"]
+            messagebox.showinfo(title=f"Requested Informations",
+                                message=f"Website: {website} \nEmail: {email} \nPassword: {password}")
+        else:
+            messagebox.showerror(title="Key Error", message=f"There is no key such '{website}'")
+            
+                    
+                    
+    
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password():
     password_entry.delete(0,END)
@@ -77,10 +98,10 @@ password_label.grid(row=3, column=0)
 
 
 # Entries
-website_entry = Entry(width=35, highlightthickness=0)
+website_entry = Entry(width=20, highlightthickness=0)
 website_entry.focus()
 website_entry.insert(END, "Amazon")
-website_entry.grid(row=1, column=1, columnspan=2)
+website_entry.grid(row=1, column=1)
 email_username_entry = Entry(width=35, highlightthickness=0)
 email_username_entry.grid(row=2, column=1, columnspan=2)
 email_username_entry.insert(0, "example@gmail.com")
@@ -88,6 +109,8 @@ password_entry = Entry(width=20, highlightthickness=0)
 password_entry.grid(row=3, column=1)
 
 # Buttons
+search_button = Button(text="Search", width=11, highlightbackground="white", command=search_info)
+search_button.grid(row=1, column=2)
 generate_password_button = Button(text="Generate Password", width=11, highlightbackground="white", command=generate_password)
 generate_password_button.grid(row=3, column=2)
 add_button = Button(text="Add", width=33, highlightbackground="white", command=save_password)
