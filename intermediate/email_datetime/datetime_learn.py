@@ -8,3 +8,5 @@ print(f"Day: {time_now.day}")
 print(f"Year: {time_now.year}")
 print(f"Date: {time_now.date()}")
 print(f"Timezone: {time_now.astimezone()}")
+
+my_birthday = dt.datetime(year=2010, month=12, day=25, hour=12)

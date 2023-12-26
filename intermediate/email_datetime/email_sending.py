@@ -6,6 +6,8 @@ other_email = "emirpisirici@hotmail.com"
 # Depending of the mail type that we're sending email from, server name changes.
 # If someone sends email with his gmail, smtp.gmail.com suits good.
 # But in case when someone sends mail with his yahoo or outlook, smtp server should change too.
+# for yahoo -> smtp.mail.yahoo.com
+# for gmail -> smtp.gmail.com
 smtp_server = "smtp.gmail.com"
 
 # Create connection with 'with' keyword. (Advantage: connection will be closed at the end by itself.)
