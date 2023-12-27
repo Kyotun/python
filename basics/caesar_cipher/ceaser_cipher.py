@@ -10,6 +10,14 @@ from caesar_art import logo
 
 
 def caesar_cipher(input_text, shift_amount, direction):
+    """
+    Takes input text, shift amount and direction as parameter.
+    Shifts the characters one by one for given amount in given direction.
+    given text -> 'a'
+    given direction -> 'encode'
+    given amount -> 1
+    output text ist: 'b'
+    """
     text = ""
     shift_amount = shift_amount % 26
     if direction == "decode":
@@ -29,6 +37,11 @@ print(logo)
 print("Hello, welcome to the Ceaser Cipher!")
 answer = ""
 while answer.lower() != "n":
+    """
+    If user doesn't want to continue with encoding or decoding, 
+    program ends after the first encode/decode.
+    """
+    
     typ = input("Do you want to 'encode' or 'decode'? ").lower()
     message = input("Type the message please: ").lower()
     shift_number = int(input("Please enter the shift number: "))
