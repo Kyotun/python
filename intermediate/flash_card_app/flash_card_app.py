@@ -26,7 +26,8 @@ current_card = {}
 def known_word():
     """No parameter. Removes the current known card from the dictionary of the words to be learned.
     Saves the left words to be learned in csv format. Amount of words to be learned is decreased.
-    Calls the new word function afterwards."""
+    Calls the new word function afterwards.
+    """
     global current_card
     learn_dict.remove(current_card)
     words_to_learn_df = pd.DataFrame(learn_dict)
@@ -35,7 +36,7 @@ def known_word():
     
 def new_word():
     """Selects a random card to be learned. Shows the new selected card in screen first in French.
-        Calls the flip_card function at the end.
+    Calls the flip_card function at the end.
     """
     global current_card, flip_timer
     window.after_cancel(flip_timer)
