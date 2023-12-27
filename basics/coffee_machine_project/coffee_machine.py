@@ -2,8 +2,10 @@ from coffee_machine_menu import MENU, resources
 
 
 def refill_water():
-    """Refills the water tank.
-        Prints, it is full, if the water tank is full."""
+    """
+    Refills the water tank.
+    Prints, it is full, if the water tank is full(300 unit).
+    """
     if resources["water"] < 300:
         resources["water"] = 300
     else:
@@ -11,8 +13,10 @@ def refill_water():
 
 
 def refill_milk():
-    """Refills the milk tank.
-        Prints, it is full, if the milk tank is full."""
+    """
+    Refills the milk tank.
+    Prints, it is full, if the milk tank is full(200 unit).
+    """
     if resources["milk"] < 200:
         resources["milk"] = 200
     else:
@@ -20,8 +24,10 @@ def refill_milk():
 
 
 def refill_coffee():
-    """Refills the coffee tank.
-        Prints, it is full, if the coffee tank is full."""
+    """
+    Refills the coffee tank.
+    Prints, it is full, if the coffee tank is full(100 unit).
+    """
     if resources["coffee"] < 100:
         resources["coffee"] = 100
     else:
@@ -29,7 +35,9 @@ def refill_coffee():
 
 
 def report():
-    """Print the resources left in coffee machine"""
+    """
+    Print the resources left in coffee machine.
+    """
     print(f"Water: {resources['water']}")
     print(f"Milk: {resources['milk']}")
     print(f"Coffee: {resources['coffee']}")
@@ -37,10 +45,12 @@ def report():
 
 
 def format_input(user_input):
-    """Convert the integer input into requested order.
-        If input is 1 convert it to 'espresso'
-        2 will be 'cappuccino'
-        3 is going to be 'latte'."""
+    """
+    Convert the integer input into requested order.
+    If input is 1 convert it to 'espresso'
+    2 will be 'cappuccino'
+    3 is going to be 'latte'.
+    """
     if user_input == 1:
         return "espresso"
     elif user_input == 2:
@@ -52,6 +62,10 @@ def format_input(user_input):
 
 
 def money_taker():
+    """
+    Ask user to how many quarters/dimes/nickles and pennies wants to insert.
+    Return total amount in $.
+    """
     print("Please insert coins")
     total_money_inserted = int(input("How many quarters?: ")) * 0.01
     total_money_inserted += int(input("How many dimes?: ")) * 0.1
@@ -61,17 +75,21 @@ def money_taker():
 
 
 def make_coffee(order):
-    """Decreases the amount of ingredients for prepared order.
-            At the end prints the order."""
+    """
+    Decreases the amount of ingredients for prepared order.
+    At the end prints the order.
+    """
     for ingredient in MENU[order]["ingredients"]:
         resources[ingredient] -= MENU[order]["ingredients"][ingredient]
     print(f"Here is your {order}. Enjoy!")
 
 
 def money_calculator(order):
-    """Take inserted money and order as input.
-        If the inserted money >= cost of the order, print the prepared object and change amount.
-        If money is not enough prints it's not enough."""
+    """
+    Take order as input.
+    If the total inserted money >= cost of the order, print the prepared object and change amount.
+    If money is not enough prints it's not enough.
+    """
     order = format_input(user_input=order)
     cost = MENU[order]["cost"]
     total_money_inserted = money_taker()
@@ -85,9 +103,10 @@ def money_calculator(order):
 
 
 def is_resource_sufficient(order):
-    """Checks if the resources for chosen order is enough.
-        Returns True if it's enough.
-        Returns False if it's not enough."""
+    """
+    Checks if the resources for chosen order is enough.
+    Returns True if it's enough, otherwise false.
+    """
     order = format_input(user_input=order)
     for ingredient in MENU[order]["ingredients"]:
         if resources[ingredient] < MENU[order]["ingredients"][ingredient]:
@@ -97,9 +116,10 @@ def is_resource_sufficient(order):
 
 
 def check_wish(user_input):
-    """Takes user input and calls the function according to that wish.
-        If user wishes to close the machine with integer input 8, returns False.
-        Otherwise, do the wished action and returns True."""
+    """
+    Takes user input and calls the function according to that wish.
+    If user wishes to close the machine, returns False.
+    Otherwise, calls the wished action(function) and returns True."""
     if user_input == 8:
         return False
     elif user_input == 7:
@@ -118,6 +138,9 @@ def check_wish(user_input):
 state_on = True
 
 while state_on:
+    """
+    Takes user input as integer. Calls the function according to that wish.
+    """
     print("Hello!")
     print("1- Make espresso.")
     print("2- Make cappuccino.")

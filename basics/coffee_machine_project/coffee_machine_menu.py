@@ -1,3 +1,5 @@
+# Menu of the coffee machine.
+# More options can be added to the dictionary.
 MENU = {
     "espresso": {
         "ingredients": {
