@@ -1,3 +1,4 @@
+# Learning classes, attributes, objects and object methods in Python.
 class User:
     def __init__(self, user_id, username):
         # These parameters(user_id and username) should be provided while creating an object.

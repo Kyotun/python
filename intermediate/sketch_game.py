@@ -1,3 +1,5 @@
+# Create turtle, move turtle to different directions while pen is down(turtle draws while moving)
+
 from turtle import Turtle, Screen
 
 alex = Turtle()

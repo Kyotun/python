@@ -1,3 +1,4 @@
+# Learning exceptions in Python
 fruits = input("Please enter the names of the fruits: ").split(",")
 
 def make_pie(index):
@@ -7,5 +8,7 @@ def make_pie(index):
         print(f"Error mesage: {error_message}, index was: {index}, number of item was: {len(fruits)}")
     else:
         print(fruit + "pie!")
+    finally:
+        pass
 
 make_pie(2)
