@@ -5,6 +5,10 @@ import json
 from password_generator import generate_new_password
 # ---------------------------- SEARCH ------------------------------------------- #
 def search_info():
+    """Searches the json data for given website entry. If website can be found, prints the informations
+    of target website.
+    If website cannot be found, shows a error in screen.
+    """
     website = website_entry.get()
     try:
         with open("/Users/kyotun/Desktop/python/intermediate/password_manager/data.json", mode="r") as file:
@@ -26,12 +30,21 @@ def search_info():
     
 # ---------------------------- PASSWORD GENERATOR ------------------------------- #
 def generate_password():
+    """Delete the characters in password field.
+    Generate password and put the generated password in password field.
+    """
     password_entry.delete(0,END)
     generated_password = generate_new_password()
     password_entry.insert(0, generated_password)
 
 # ---------------------------- SAVE PASSWORD ------------------------------- #
 def save_password():
+    """Gets the input email, password and website. Convert them into dict format.
+    Controls the length of given inputs, if lengths are not bigger than 1, shows warning in screen.
+    If there is nothing against rules, saves the given input password, email and website to json data.
+    Deletes the characters from the fields.
+    At the end, focuses the cursor to website field.
+    """
     email = email_username_entry.get()
     website = website_entry.get()
     password = password_entry.get()
@@ -78,11 +91,12 @@ def save_password():
         else:
             messagebox.showinfo(title="Acknowledgement", message="Informations are not saved.")
 # ---------------------------- UI SETUP ------------------------------- #
-
+# Create the windows and setup
 window = Tk()
 window.title("Password Manager")
 window.config(padx=20, pady=20, bg="white")
 
+# Create canvas for photo of lock
 canvas = Canvas(width=200, height=200, bg="white", highlightthickness=0)
 logo_img = PhotoImage(file="/Users/kyotun/Desktop/python/intermediate/password_manager/logo.png")
 canvas.create_image(100, 100, image=logo_img)
