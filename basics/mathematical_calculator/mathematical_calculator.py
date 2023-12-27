@@ -32,6 +32,14 @@ output = 0
 
 
 def calculator():
+    """
+    Prints the operations as symbols.
+    Takes the first number from user as float input.
+    Asks user to which operation to apply.
+    Asks user to give the second number.
+    Asks user to if he/she wants to do more calculation with the answer.
+    If 'y', number1 is answer and asks user to next operation and the other number.
+    """
     print(logo)
 
     print("Operations:")
