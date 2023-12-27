@@ -213,6 +213,3 @@ word_list = [
 'zodiac', 
 'zombie', 
 ]
-
-chosen_word = random.choice(hangman_words.word_list)
-control_list = ['_'] * len(chosen_word)

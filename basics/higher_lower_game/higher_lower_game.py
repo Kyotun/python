@@ -11,13 +11,17 @@ import os
 
 
 def clear_console():
-    """Function for clearing the console."""
+    """
+    Function for clearing the console.
+    """
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def pull_account_information(account):
-    """Takes the account as dictionary and returns the name, 
-        description and country of that person as printable format."""
+    """
+    Takes the account as dictionary and returns the name, 
+    description and country of that person as printable format.
+    """
     name = account["name"]
     description = account["description"]
     country = account["country"]
@@ -25,7 +29,9 @@ def pull_account_information(account):
 
 
 def check_guess(guess, follower_one, follower_two):
-    """Take the guess of user and follower counts and returns a bool if they got the guess True or False."""
+    """
+    Takes the guess of user and follower counts and returns a bool if they got the guess True or False.
+    """
     if follower_one > follower_two:
         return guess == 'A'
     else:
@@ -33,8 +39,10 @@ def check_guess(guess, follower_one, follower_two):
 
 
 def check_score(condition, score):
-    """Takes the condition(if the user knew the right answer) and current score.
-        Add 1 to score if condition is true and prints the score. Otherwise prints users last score and lost the game print."""
+    """
+    Takes the condition(if the user knew the right answer) and current score.
+    Add 1 to score if condition is true and prints the score. Otherwise prints users last score and lost the game print.
+    """
     if condition:
         score += 1
         print(f"You're right! Current score: {score}")
