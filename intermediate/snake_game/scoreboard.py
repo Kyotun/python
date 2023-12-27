@@ -4,6 +4,10 @@ FONT = ("Arial", 24, "normal")
 SCREEN_GAP = 30
 
 class Scoreboard(Turtle):
+    """Scoreboard class inherit from Turtle class.
+    Screen height should be as parameter given for the placement of scoreboard.
+    As default, color is white.
+    """
     def __init__(self, screen_heigth):
         super().__init__()
         self.penup()
@@ -18,16 +22,19 @@ class Scoreboard(Turtle):
     
 
     def reset(self):
+        """Resets the scoreboard.
+        If current score higher than the past highest score, current score will be saved as highest score.
+        """
         if self.score > int(self.highest_score):
             self.highest_score = self.score
-            with open("/Users/kyotun/Desktop/python_training/intermediate/snake_game/highest_score.txt", mode="w") as file:
+            with open("intermediate/snake_game/highest_score.txt", mode="w") as file:
                 file.write(f"{self.highest_score}")
         self.score = 0
         self.update_score_board()
     
 
     def read_highest_score(self):
-        with open("/Users/kyotun/Desktop/python_training/intermediate/snake_game/highest_score.txt") as file:
+        with open("intermediate/snake_game/highest_score.txt") as file:
             self.highest_score = file.read()
             file.close()
 

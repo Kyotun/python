@@ -11,6 +11,10 @@ LEFT = 180
 RIGHT = 0
 
 class Snake:
+    """Snake class. Creation parameterss -> segment number, screen width and height for accurate results
+    and good user experience.
+    Head will be assigned as first segment.
+    """
     def __init__(self, segment_number, screen_width, screen_heigth):
         self.segment_number = segment_number
         self.screen_width = screen_width
@@ -22,12 +26,23 @@ class Snake:
 
 
     def check_collision(self):
+        """Controls if there is any collison between the segments.
+        Snake cannot touch itself(its segments).
+        Returns:
+            _bool_: Did one of the segment touch another segment?
+        """
         for segment in self.segments[1:]:
             if self.head.distance(segment) < COLLISION_DISTANCE:
                 return True
 
 
     def check_wall(self):
+        """Calculates the difference between the coordinates of snakes's head
+        and screens width and height.
+        If distance is smaller than a wall distance constant(10 unit), returns this function True.
+        Returns:
+            _bool_: Is snake touch the border of screen? True, if yes.
+        """
         coordinate_x = self.segments[0].xcor()
         coordinate_y = self.segments[0].ycor()
         distance_x = abs(abs(coordinate_x) - self.screen_width/2)
@@ -46,6 +61,9 @@ class Snake:
 
 
     def reset(self):
+        """Moves all the segments out of the screen and clear the segments from the screen.
+        Creates a new snake add asign the 0 element of segments to the head of the snake.
+        """
         for segment in self.segments:
             segment.goto(self.screen_width + 100, self.screen_heigth + 100)
         self.segments.clear()
@@ -54,6 +72,9 @@ class Snake:
 
 
     def create_snake(self):
+        """Puts a segment, slide to the left in negative 
+        x direction as segment size unit and add another segment.
+        """
         coordinate_x = 0
         coordinate_y = 0
         for segment in range (self.segment_number):
@@ -62,11 +83,18 @@ class Snake:
         
 
     def extend(self):
+        """Adds segment to snake with help of last segments position and increase the number of segment by 1.
+        """
         self.add_segment(self.segments[-1].position())
         self.segment_number += 1
 
 
     def move(self):
+        """Starts from the end of the snake.
+        From end to the beginning to the snake, the former segment takes place of the next segment.
+        At the end second segment will take the position of first segment(head of snake).
+        Finally, head of snake will move forward and loop will be over and snake would be moved.
+        """
         for seg_num in range (len(self.segments) - 1, 0, -1):
             new_x = self.segments[seg_num - 1].xcor()
             new_y = self.segments[seg_num - 1].ycor()

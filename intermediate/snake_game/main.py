@@ -4,6 +4,7 @@ from food import Food
 from scoreboard import Scoreboard
 import time
 
+# Setup the screen
 SCREEN_WIDTH = 1000
 SCREEN_HEIGTH = 1000
 screen = Screen()
@@ -12,10 +13,12 @@ screen.bgcolor("black")
 screen.title("Snake Game")
 screen.tracer(0)
 
+# Create the objects
 snake = Snake(segment_number=5, screen_width=SCREEN_WIDTH, screen_heigth=SCREEN_HEIGTH)
 food = Food(screen_height=SCREEN_HEIGTH, screen_width=SCREEN_WIDTH)
 score_board = Scoreboard(screen_heigth=SCREEN_HEIGTH)
 
+# Put screen in listening mode for keyword inputs
 screen.listen()
 screen.onkey(snake.up, "Up")
 screen.onkey(snake.down, "Down")
@@ -25,6 +28,7 @@ screen.onkey(snake.right, "Right")
 is_on = True
 while is_on:
     screen.update()
+    # Game speed itself with increase in score
     time.sleep(score_board.move_speed)
 
     snake.move()
