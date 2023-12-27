@@ -5,12 +5,16 @@ import random
 
 question_bank = []
 for question in question_data:
+    """Take every question in question data dictionary and 
+    save the questions and their answer to question bank.
+    """
     question_text = question["question"]
     answer = question["correct_answer"]
     new_question = Question(q_text=question_text, q_answer=answer)
     question_bank.append(new_question)
 
-quiz = QuizBrain(question_bank)
+# Create a quizbrain object with question bank(question list)
+quiz = QuizBrain(q_list=question_bank)
 
 while quiz.still_has_question():
     quiz.next_question()

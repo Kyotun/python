@@ -1,4 +1,6 @@
 class QuizBrain:
+    """QuizBrain class evaluates the answers, ask questions and hold the score.
+    """
     def __init__(self, q_list):
         self.question_list = q_list
         self.question_number = 0
@@ -9,6 +11,11 @@ class QuizBrain:
         print(f"Your final score was: {self.score} out of {self.question_number}")
 
     def check_answer(self, user_input, correct_answer):
+        """Answer and user input are boolean values.
+        Check if user input equals to correct answer.
+        If yes add score to 1 point.
+        Print the correct answer and current score. 
+        """
         if correct_answer.lower() == user_input.lower():
             self.score += 1
             print("You got it right!")
