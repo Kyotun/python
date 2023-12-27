@@ -8,15 +8,25 @@ from blackjack_art import logo
 
 
 def clear_console():
+    """Clears the console/terminal."""
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def take_card():
+    """Creates a list of card and choose a random card from this list.
+    List contains cards as integers.
+    11 -> Ace
+    10 -> Queen, King, Joker
+    Other cards have normal point."""
     cards = [11, 2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10]
     return random.choice(cards)
 
 
 def calculate_score(hand):
+    """Calculates the score of the given parameter(users hand).
+    If sum of the card of given hand is equal 21 and there is just 2 card, returns 0.
+    If there is an ace and sum of cards is bigger than 21, ace will be counted as 1 not 11.
+    returns the sum of the new created hand."""
     if sum(hand) == 21 and len(hand) == 2:
         return 0
 
@@ -28,6 +38,12 @@ def calculate_score(hand):
 
 
 def compare(user_score, computer_score):
+    """Compare the given two scores -> User score and computer score.
+    If both of them went over 21, user loses.
+    If equal -> Draw
+    If computer/user is 0, computer/user wins.
+    If user <=21 and computer went over 21, user wins.
+    In other cases, who has bigger sum that person wins."""
     if user_score > 21 and computer_score > 21:
         return "You went over. You lost :c"
 
@@ -48,6 +64,9 @@ def compare(user_score, computer_score):
 
 
 def blackjack():
+    """Starts the game of blackjack. In the beginning creates a empty list for user and computer.
+    Append 2 random card to their hand and goes into while loop. Game continues when as long as the 
+    conditions are established."""
     print(logo)
 
     user_hand = []
@@ -72,7 +91,10 @@ def blackjack():
                 user_hand.append(take_card())
             else:
                 game_continues = False
+                
     while dealer_score != 0 and dealer_score < 17:
+        """If dealer could not win and his score smaller than 17, he should 
+        take card."""
         dealer_hand.append(take_card())
         dealer_score = calculate_score(dealer_hand)
 
@@ -86,6 +108,8 @@ print("Welcome to the game Blackjack!")
 answer = input("Do you want to play a game? 'y' or 'n': ")
 
 while answer == 'y':
+    """If user wants to play game with answer 'y', clears the console and starts the blackjack game
+    from start."""
     clear_console()
     blackjack()
     answer = input("Would you like to play another game? 'y' or 'n': ").lower()
