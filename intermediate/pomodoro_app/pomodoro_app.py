@@ -38,11 +38,15 @@ currently_playing_song = playlist[0]
 paused = False
 
 def display_playlist(songs):
+    """Take playlist as input and shows the name of the songs in playlist.
+    """
     for file_path in songs:
         file_name = os.path.splitext(os.path.basename(file_path))[0]
         playlist_box.insert(END, file_name)
 
 def highlight_current_song(current_song):
+    """Highlights the current playing song.
+    """
     # Find the index of the currently playing song in the playlist
     index = playlist.index(current_song)
     
@@ -52,18 +56,27 @@ def highlight_current_song(current_song):
     playlist_box.see(index)  # Ensure the selected item is visible in the Listbox
         
 def stop_music():
+    """If currently playing music is not stopped, it will be stopped.
+    """
     global paused
     if not paused:
         pygame.mixer.music.pause()
         paused = True
 
 def continue_music():
+    """If currently playing music is stopped, it will be unpaused.
+    """
     global paused
     if not pygame.mixer.music.get_busy():
         pygame.mixer.music.unpause()
         paused = False
 
 def play_background_sound(songs):
+    """Start playing music in songs(given parameter).
+
+    Args:
+        songs (_List_): Contains the relative path of the musics.
+    """
     global currently_playing_song, paused
     pygame.init()
     pygame.mixer.init()
@@ -76,6 +89,9 @@ music_thread = threading.Thread(target=play_background_sound, args=(playlist,))
 music_thread.start()
 
 def go_forward():
+    """Stopts the currently playing music and takes the next music in the playlist list
+    as the current music and starts to play.
+    """
     global currently_playing_song, paused
     # Stop the current song
     pygame.mixer.music.stop()
@@ -92,6 +108,9 @@ def go_forward():
     paused = False
 
 def go_backward():
+    """Stopts the currently playing music and takes the former music in the playlist list
+    as the current music and starts to play.
+    """
     global currently_playing_song, paused
     # Stop the current song
     pygame.mixer.music.stop()
@@ -109,6 +128,9 @@ def go_backward():
 
 # ---------------------------- TIMER RESET ------------------------------- # 
 def reset_timer():
+    """Resets the timer. Everything will be start from the beginning.
+    Pomodoro counts will be reseted too.
+    """
     global reps
     reps = 0
     window.after_cancel(timer)
@@ -116,6 +138,9 @@ def reset_timer():
     show_text.config(text="Timer", fg=GREEN, bg=YELLOW)
 # ---------------------------- TIMER MECHANISM ------------------------------- # 
 def start_timer():
+    """Starts the timer. In every 4.th round there will be a long break(20 min).
+    Otherwise breaks are 5 min. Working time is 25 min.
+    """
     global reps
     reps += 1
     
@@ -132,6 +157,11 @@ timer_thread = threading.Thread(target=start_timer)
 # ---------------------------- COUNTDOWN MECHANISM ------------------------------- # 
 import time
 def count_down(count):
+    """Shows the current left time in the clock.
+
+    Args:
+        count (_Integer_): Starting point of countdown in seconds.
+    """
     min_left = math.floor(count / 60)
     second_left = count % 60
     if second_left < 10:
@@ -154,6 +184,7 @@ show_text = Label(text="Timer", font=(FONT_NAME, 50))
 show_text.config(fg=GREEN, bg=YELLOW)
 show_text.grid(row=0, column=1)
 
+# Canvases
 canvas = Canvas(width=200, height=224, bg=YELLOW, highlightthickness=0)
 tomato_img = PhotoImage(file="/Users/kyotun/Desktop/python/intermediate/pomodoro_app/tomato.png")
 canvas.create_image(100, 112, image=tomato_img)
