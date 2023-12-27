@@ -31,8 +31,8 @@ def draw_painting(width, height, step, dot_diameter):
     In the beginning, moves the turtle a little bit to south west and sets heading to east.
     Choose a random color from extracted colors from image and put a dot to current location and
     moves the turtle 1 step(given as parameter) forward.
-    If turtle is at the edge of frame, add 1 to the height and goes beginning of the frame.
-    Continues with putting dots.
+    If turtle is at the edge of frame, add 1 to the height and turtles goes to the beginning of the frame.
+    Continues with putting dots till the dot count is completed.
     """
     alex.setheading(225)
     alex.forward(300)
