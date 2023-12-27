@@ -8,13 +8,17 @@ from bid_game_art import logo
 
 
 def clear_console():
-    """Clears the console/terminal."""
+    """
+    Clears the console/terminal.
+    """
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def find_highest_bid(bid_record):
-    """Iterates through given dict, finds the new highest bid and takes the name of the bidder.
-    Assigns the winner to the bidders name and highest bid to his/hers bid."""
+    """
+    Iterates through given dict, finds the new highest bid and takes the name of the bidder.
+    Assigns the winner to the bidders name and highest bid to his/hers bid.
+    """
     highest_bid = 0
     winner = ""
     for bidder in bid_record:
@@ -33,7 +37,10 @@ print("Welcome to the bid game!")
 print("Game starts now.")
 
 while answer != "no":
-    """If there is no more bidder left, auction is over."""
+    """
+    If there is no more bidder left, auction is over.
+    """
+    
     name = input("What is your name?: ")
     bid = int(input("what is your bid?: $"))
     bids[name] = bid
