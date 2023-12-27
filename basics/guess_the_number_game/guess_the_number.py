@@ -13,14 +13,18 @@ HARD_LEVEL_TURNS = 5
 
 
 def clear_console():
-    """Function for clearing the console."""
+    """
+    Function for clearing the console.
+    """
     os.system('cls' if os.name == 'nt' else 'clear')
 
 
 def check_the_guess(guess, number_to_guess, turn):
-    """Takes the guess, random generated number and turn left to make guess as input.
-        If the guess is wrong, decrease the number of turns and returns it.
-        If the guess is right, prints 'You won!'."""
+    """
+    Takes the guess, random generated number and turn left to make guess as input.
+    If the guess is wrong, decrease the number of turns and returns it.
+    If the guess is right, prints 'You won!'.
+    """
 
     if guess > number_to_guess:
         print("Too High")
@@ -33,9 +37,10 @@ def check_the_guess(guess, number_to_guess, turn):
 
 
 def set_difficulty():
-    """Asks user for difficulty. There are two options. 'easy' or 'hard'.
-        If difficulty is easy, returns EASY_LEVEL_TURNS which equals to 10.
-        If difficulty is hard, returns HARD_LEVEL_TURNS which equals to 5."""
+    """
+    Asks user for difficulty. There are two options. 'easy' or 'hard'.
+    If difficulty is easy, returns EASY_LEVEL_TURNS which equals to 10.
+    If difficulty is hard, returns HARD_LEVEL_TURNS which equals to 5."""
 
     difficulty = input("Choose a difficulty. 'Easy' or 'Hard'?: ").lower()
     if difficulty == "easy":
@@ -45,10 +50,12 @@ def set_difficulty():
 
 
 def guess_number_game():
-    """Sets the difficulty of game(easy or hard). Easy has 10, hard has 5 turn.
-        Generate a random number between [1-100].
-        Takes guesses as input from the user.
-        It ends if the attempt right of user is 0 or user wins."""
+    """
+    Sets the difficulty of game(easy or hard). Easy has 10, hard has 5 turn.
+    Generate a random number between [1-100].
+    Takes guesses as input from the user.
+    It ends if the attempt right of user is 0 or user wins.
+    """
 
     print(logo)
     attempt_right = set_difficulty()
