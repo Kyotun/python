@@ -5,6 +5,7 @@ from scoreboard import Scoreboard
 import time
 
 
+# Constants
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 UP = "Up"
@@ -12,17 +13,20 @@ DOWN = "Down"
 W = "w"
 S = "s"
 
+# Setup the screen
 screen = Screen()
 screen.setup(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 screen.bgcolor("black")
 screen.title("Pong Game")
 screen.tracer(0)
 
+# Create objects
 paddle_left = Paddle(screen_width=SCREEN_WIDTH, kind="left")
 paddle_right = Paddle(screen_width=SCREEN_WIDTH, kind="right")
 ball = Ball()
 scoreboard = Scoreboard()
 
+# Put screen to listen status to read keyboard inputs from user.
 screen.listen()
 screen.onkey(paddle_left.up, W)
 screen.onkey(paddle_left.down, S)
@@ -37,17 +41,20 @@ while is_on:
     ball.move()
     ball.check_walls(screen_heigth=SCREEN_HEIGHT, screen_width=SCREEN_WIDTH) 
 
-    """When ball too close to the paddle center and close to the wall, it bounces itself from there."""
+    """When ball too close to the paddle center and close to the wall, it bounces itself from there.
+    """
     if ball.distance(paddle_right) < 50 and ball.xcor() > 350 or ball.distance(paddle_left) < 50 and ball.xcor() < -350:
         ball.bounce_x()
 
     if ball.xcor() > 380:
-        """Right side could not hold the ball. Ball switches side."""
+        """Right side could not hold the ball. Ball switches side.
+        """
         scoreboard.l_wins()
         ball.swtich()
     
     if ball.xcor() < -380:
-        """Left side could not hold the ball. Ball switches side."""
+        """Left side could not hold the ball. Ball switches side.
+        """
         scoreboard.r_wins()
         ball.swtich()
     
