@@ -15,12 +15,7 @@ for question in question_data:
     new_question = Question(q_text=question_text, q_answer=answer)
     question_bank.append(new_question)
 
-# Create a quizbrain object with question bank(question list)
+# Create quizbrain and UI objects
 quiz = QuizBrain(q_list=question_bank)
-quiz_ui = QuizInterface()
-quiz_ui.put_question(q_text=quiz.next_question())
+quiz_ui = QuizInterface(quizbrain=quiz)
 
-# while quiz.still_has_question():
-#     quiz.next_question()
-
-# quiz.print_final_state()
