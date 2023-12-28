@@ -7,6 +7,9 @@ GAP = 30
 LEFT_CORNER = (-SCREEN_WIDTH/2 + GAP, SCREEN_HEIGHT/2 - GAP)
 
 class ScoreBoard(Turtle):
+    """Scoreboard class inherit from Turtle class.
+    Default color is white. Location is left corner.
+    """
     def __init__(self):
         super().__init__()
         self.level = 1

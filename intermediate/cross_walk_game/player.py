@@ -6,6 +6,9 @@ STARTING_POSITION = (0, -SCREEN_HEIGTH/2 + 2*MOVE_METER)
 FINISH_LINE_Y = 280
 
 class Player(Turtle):
+    """Player class inherit from Turtle class.
+    Default shape is turtle, color white, speed fast.
+    """
     def __init__(self):
         super().__init__()
         self.go_to_start()
