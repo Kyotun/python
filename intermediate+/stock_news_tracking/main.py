@@ -6,6 +6,10 @@ import os
 from twilio.rest import Client
 
 # Define constants
+MY_NUMBER = os.environ.get("MY_NUMBER")
+TWILIO_NUMBER = os.environ.get("TWILIO_NUMBER")
+TWILIO_SID = os.environ.get("TWILIO_SID")
+TWILIO_AUTH_TOKEN = os.environ.get("TWILIO_AUTH_TOKEN")
 NEWS_API_KEY = os.environ.get("NEWS_API_KEY")
 STOCK_API_KEY = os.environ.get("STOCK_API_KEY")
 URL_STOCK = ("https://www.alphavantage.co/query")
@@ -62,7 +66,14 @@ if abs(diff_percent) > 1:
     response_news.raise_for_status()
     articles = response_news.json()["articles"]
     three_articles = articles[:3]
-    summaries = [f"{STOCK_NAME}: {emoji}{diff_percent}% \nHeadline:{article['title']}.\nBrief: {article['description']}" for article in three_articles]
+    summary = [f"{STOCK_NAME}: {emoji}{diff_percent}% \nHeadline:{article['title']}.\nBrief: {article['description']}" for article in three_articles]
     
+    client = Client(TWILIO_SID, TWILIO_AUTH_TOKEN)
+    for article in summary:
+        message = client.messages.create(
+            body=article,
+            from_=TWILIO_NUMBER,
+            to=MY_NUMBER
+        )
 
 
