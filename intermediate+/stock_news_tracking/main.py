@@ -53,7 +53,7 @@ if difference > 0:
 else:
     emoji = "🔽"
 
-# Do somethings according to the percentage
+# Send message according to the percentage
 diff_percent = round((difference / float(yesterday_closing_price)) * 100, 2)
 if abs(diff_percent) > 1:
     parameters_news = {
