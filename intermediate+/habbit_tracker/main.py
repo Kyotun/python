@@ -1,70 +1,78 @@
-import requests
+from tracker import Tracker
 import os
-from datetime import datetime
 
 
-USERNAME = "kyotunn"
-PIXELA_TOKEN = os.environ.get("PIXELA_TOKEN")
-GRAPH_ID = "firstgraph"
-DATE = datetime(year=2024, month=1, day=1).strftime("%Y%m%d")
-QUANTITY = "20"
+print("Welcome to the tracker program!")
+username = input("Please enter your username(press enter if not exist):")
+token = input("Please enter your token(press enter if not exist):")
+my_tracker = Tracker(username=username, token=token)
 
 
-# Parameter for using api(our token)
-headers = {
-    "X-USER-TOKEN": PIXELA_TOKEN
-}
-
-# CREATE A USER ACCOUNT
-pixela_endpoint = "https://pixe.la/v1/users"
-# Parameters for user account creation
-user_parameters = {
-    "username": USERNAME,
-    "token": PIXELA_TOKEN,
-    "agreeTermsOfService": "yes",
-    "notMinor": "yes"
-}
-# # Give the user datas to the pixela to create a user acc.
-# response_user_acc = requests.post(url=pixela_endpoint, json=user_parameters)
-# # Print the response text to see if it was successful
-# print(response_user_acc.text)
-
-
-# CREATE A NEW GRAPH
-pixela_graph_endpoint = f"{pixela_endpoint}/{USERNAME}/graphs"
-# Parameters for creating a new graph
-graph_config = {
-    "id": GRAPH_ID,
-    "name": "Reading Graph",
-    "unit": "Page",
-    "type": "float",
-    "color": "kuro"
-}
-# # Get the response for graph if is successful and print the response.
-# response_graph = requests.post(url=pixela_graph_endpoint, json=graph_config, headers=headers)
-# print(response_graph.text)
-
-
-# PUT A NEW PIXEL
-pixela_record_endpoint = f"{pixela_graph_endpoint}/{GRAPH_ID}"
-# # Parameters for recording a new entry for graph
-record_config = {
-    "date": DATE,
-    "quantity": QUANTITY,
-}
-# response_record = requests.post(url=pixela_record_endpoint, json=record_config, headers=headers)
-# print(response_record.text)
-
-# UPDATE A PIXEL
-edit_config = {
-    "quantity": QUANTITY
-}
-pixela_edit_endpoint = f"{pixela_record_endpoint}/{DATE}"
-# response_edit = requests.put(url=pixela_edit_endpoint, json=edit_config, headers=headers)
-# print(response_edit.text)
-
-
-# DELETE A PIXEL
-pixela_delete_pixel_endpoint = f"{pixela_record_endpoint}/{DATE}"
-response_delete = requests.delete(url=pixela_delete_pixel_endpoint, headers=headers)
-print(response_delete.text)
+is_on = True
+while is_on:
+    print("Options:")
+    print("1)Create an account.")
+    print("2)Create a new graph.")
+    print("3)Give a new entry for existing graph.")
+    print("4)Update an entry of existing graph.")
+    print("5)Delete an entry of existing graph")
+    print("6)Show urls of existing graphs.")
+    print("7)Change the current token.")
+    print("8)Change the current username.")
+    print("9)Enter a new graph link.")
+    print("10)Save the graphids and their urls.")
+    print("11)Load/Update the graphids and their urls.")
+    print("12)Exit.")
+    answer = int(input("Please choose an option:"))
+    
+    if answer == 1:
+        username = input("Please enter your username:")
+        token = input("Please enter your token:")
+        terms = input("Do you agree the usage/service terms of pixela? 'yes' or 'no':").lower()
+        if terms == 'no':
+            print("Sorry, account cannot be created.")
+        else:
+            my_tracker.create_user_account(username=username, token=token, terms="yes", minor="yes")
+    elif answer == 2:
+        graphid = input("Please enter graphid(just lower cases and numbers):")
+        graphname = input("Please enter the graphn name(reading graph, gym notebook, etc.):")
+        unit = input("Please enter the unit(kilogram, pages, etc.):")
+        unit_type = input("Please enter the unit type(float or int):")
+        color = input("Please enter the color(shibafu (green), momiji (red), sora (blue), ichou (yellow), ajisai (purple) and kuro (black) are supported as color kind):")
+        my_tracker.create_new_graph(graphid=graphid, graph_name=graphname, graph_unit=unit, unit_type=unit_type, pixel_color=color)
+    elif answer == 3:
+        graphid = input("Please enter graphid(just lower cases and numbers):")
+        quantity = input("Plese enter the quantitiy:")
+        date = input("Please enter the date(in format yyyyMMdd):")
+        my_tracker.put_pixel(graphid=graphid, quantity=quantity, date=date)
+    elif answer == 4:
+        graphid = input("Please enter graphid(just lower cases and numbers):")
+        quantity = input("Plese enter the quantitiy:")
+        date = input("Please enter the date(in format yyyyMMdd):")
+        my_tracker.put_pixel(graphid=graphid, quantity=quantity, date=date)
+    elif answer == 5:
+        graphid = input("Please enter graphid(just lower cases and numbers):")
+        date = input("Please enter the date(in format yyyyMMdd):")
+        my_tracker.delete_pixel(graphid=graphid, date=date)
+    elif answer == 6:
+        print(my_tracker.get_graph_urls())
+    elif answer == 7:
+        new_token = input("Please enter the new token:")
+        my_tracker.set_token(token=token)
+    elif answer == 8:
+        new_username = input("Please enter the new username:")
+        my_tracker.set_username(username=username)
+    elif answer == 9:
+        new_graphid = input("Please enter new graphs id:")
+        my_tracker.set_graph(graphid=new_graphid)
+    elif answer == 10:
+        my_tracker.save_graphs()
+    elif answer == 11:
+        my_tracker.read_graphs()
+    elif answer == 12:
+        is_on = False
+        print("See you later!")
+        
+        
+        
+    
