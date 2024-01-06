@@ -1,7 +1,9 @@
 from datetime import datetime
 import os
+from urllib.parse import urlparse
 import requests
 import json
+
 
 class Tracker():
     def __init__(self, username:str, token:str):
@@ -11,68 +13,7 @@ class Tracker():
         self.username:str = ""
         self.graphs:dict = {}
 
-            
-    def read_graphs(self):
-        """Reads and the existed graphs from a json data and saves into a dict variable.
-        If there is no file, opens one.
-        Returns:
-            _bool_: False if there is no graph data to read or file is not opened.
-        """
-        try:
-            file = open("graphs.json", mode="r")
-            json.load(file)
-            file.close()
-        except FileNotFoundError:
-            with open("graphs.json", mode="w") as file:
-                file.close()
-            print("File was not found. New one is now opened.")
-            return False
-        except json.decoder.JSONDecodeError as e:
-            print("JSONDecodeError:", e)
-            print("File can be empty.")
-            return False
-        else:
-            with open("graphs.json", mode="r") as file:
-                self.graphs = json.load(file)
-                file.close()
-            print("Datas are succesfully readed.")
-            return True
-            
-            
-    def save_graphs(self):
-        """If there is graph to save and no json data, opens a json data and save them into it.
-        If there is a empty json data, writes the graph datas into it.
-        If there is a not empty json data, append the new graph datas to the existing ones.
-        """
-        if self.graphs:
-            try:
-                file = open("graphs.json", mode="r")
-                json.load(file)
-                file.close()
-            except FileNotFoundError as e:
-                print("File not found:", e)
-                with open("graphs.json", mode="w") as file:
-                    json.dump(self.graphs, file)
-                    file.close()
-            except json.decoder.JSONDecodeError as e:
-                print("JSONDecodeError:", e)
-                with open("graphs.json", mode="w") as file:
-                    json.dump(self.graphs, file)
-                    file.close()
-                print("File was empty but data has been saved.")
-            else:
-                with open("graphs.json", mode="r") as file:
-                    existed_graphs = json.load(file)
-                    file.close()
-                existed_graphs.update(self.graphs)
-                with open("graphs.json", mode="w") as file:
-                    json.dump(existed_graphs, file)
-                    file.close()
-                print("Graphs were saved.")
-        else:
-            print("There is no graph data to save.")
-        
-        
+    
     def create_user_account(self, username:str, token:str, terms:str, minor:str):
         """Creates a user account in Pixela website with given parameters.
         If terms and minor would not accepted, account cannot be opened.
@@ -170,6 +111,68 @@ class Tracker():
             print(response.text)
         else:
             print("Graphid cannot be recognized.")
+    
+    
+    def read_graphs(self):
+        """Reads and the existed graphs from a json data and saves into a dict variable.
+        If there is no file, opens one.
+        Returns:
+            _bool_: False if there is no graph data to read or file is not opened.
+        """
+        try:
+            file = open("intermediate+/habbit_tracker/graphs.json", mode="r")
+            json.load(file)
+            file.close()
+        except FileNotFoundError:
+            with open("intermediate+/habbit_tracker/graphs.json", mode="w") as file:
+                file.close()
+            print("File was not found. New one is now opened.")
+            return False
+        except json.decoder.JSONDecodeError as e:
+            print("JSONDecodeError:", e)
+            print("File can be empty.")
+            return False
+        else:
+            with open("intermediate+/habbit_tracker/graphs.json", mode="r") as file:
+                self.graphs = json.load(file)
+                file.close()
+            print("Datas are succesfully readed.")
+            return True
+            
+            
+    def save_graphs(self):
+        """If there is graph to save and no json data, opens a json data and save them into it.
+        If there is a empty json data, writes the graph datas into it.
+        If there is a not empty json data, append the new graph datas to the existing ones.
+        """
+        if self.graphs:
+            try:
+                file = open("intermediate+/habbit_tracker/graphs.json", mode="r")
+                json.load(file)
+                file.close()
+            except FileNotFoundError as e:
+                print("File not found:", e)
+                with open("intermediate+/habbit_tracker/graphs.json", mode="w") as file:
+                    json.dump(self.graphs, file)
+                    file.close()
+                print("File has opened and graph link is saved into it.")
+            except json.decoder.JSONDecodeError as e:
+                print("JSONDecodeError:", e)
+                with open("intermediate+/habbit_tracker/graphs.json", mode="w") as file:
+                    json.dump(self.graphs, file)
+                    file.close()
+                print("File was empty but data has been saved.")
+            else:
+                with open("intermediate+/habbit_tracker/graphs.json", mode="r") as file:
+                    existed_graphs = json.load(file)
+                    file.close()
+                existed_graphs.update(self.graphs)
+                with open("intermediate+/habbit_tracker/graphs.json", mode="w") as file:
+                    json.dump(existed_graphs, file)
+                    file.close()
+                print("Graphs were saved.")
+        else:
+            print("There is no graph data to save.")
         
         
     def get_graph_urls(self):
@@ -184,8 +187,30 @@ class Tracker():
             return urls
         else:
             print("No graph url to show.")
-            
     
+    def is_valid_url(self, url:str):
+        try:
+            response = requests.head(url, allow_redirects=True)
+            print(f"Response = {response}")
+            print(f"Response status code = {response.status_code}")
+            print(f"Response JSON= {response.json()}")
+            print(f"Response Text = {response.text}")
+            final_url = response.url  # Get the final URL after following redirections
+            print(f"Final Url: {final_url}")
+            final_response = requests.head(final_url)  # Make a request to the final URL
+            print(f"Final Response = {final_response}")
+            print(f"Final Response status code = {final_response.status_code}")
+            print(f"Final Response JSON = {final_response.json()}")
+            print(f"Final Response Text = {final_response.text}")
+            
+            if final_response.status_code == 200 and 'text/html' in final_response.headers.get('content-type', '').lower():
+                return True  # Returns True if the final URL exists and responds with HTML content
+            else:
+                return False
+        except requests.RequestException:
+            return False
+            
+            
     def set_token(self, token:str):
         self.token = token
     
@@ -195,4 +220,9 @@ class Tracker():
         
     
     def set_graph(self, graphid:str):
-        self.graphs[graphid] = f"{self.url}/{self.username}/graphs/{graphid}"
+        url = f"{self.url}/{self.username}/graphs/{graphid}.html"
+        if self.is_valid_url(url=url):
+            self.graphs[graphid] = url
+        else:
+            print("There is no URL under the name of this graphid.")
+        
