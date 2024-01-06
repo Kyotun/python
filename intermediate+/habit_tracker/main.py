@@ -38,7 +38,8 @@ while is_on:
         graphname = input("Please enter the graphn name(reading graph, gym notebook, etc.):")
         unit = input("Please enter the unit(kilogram, pages, etc.):")
         unit_type = input("Please enter the unit type(float or int):")
-        color = input("Please enter the color(shibafu (green), momiji (red), sora (blue), ichou (yellow), ajisai (purple) and kuro (black) are supported as color kind):")
+        color = input("Please enter the color(shibafu (green), momiji (red), sora (blue), ichou (yellow), "
+                      "ajisai (purple) and kuro (black) are supported as color kind):")
         my_tracker.create_new_graph(graphid=graphid, graph_name=graphname, graph_unit=unit, unit_type=unit_type, pixel_color=color)
     elif answer == 3:
         graphid = input("Please enter graphid(just lower cases and numbers):")

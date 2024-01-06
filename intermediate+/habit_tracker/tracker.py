@@ -6,15 +6,14 @@ import json
 
 
 class Tracker():
-    def __init__(self, username:str, token:str):
-        self.token:str = ""
+    def __init__(self, username: str, token: str):
+        self.token: str = ""
         self.headers = ""
-        self.url:str = "https://pixe.la/v1/users"
-        self.username:str = ""
-        self.graphs:dict = {}
+        self.url: str = "https://pixe.la/v1/users"
+        self.username: str = ""
+        self.graphs: dict = {}
 
-    
-    def create_user_account(self, username:str, token:str, terms:str, minor:str):
+    def create_user_account(self, username: str, token: str, terms: str, minor: str):
         """Creates a user account in Pixela website with given parameters.
         If terms and minor would not accepted, account cannot be opened.
         Args:
@@ -37,9 +36,8 @@ class Tracker():
         }
         response = requests.post(url=self.url, json=user_parameters)
         print(response.text)
-    
-    
-    def create_new_graph(self, graphid:str, graph_name:str, graph_unit:str, unit_type:str, pixel_color:str):
+
+    def create_new_graph(self, graphid: str, graph_name: str, graph_unit: str, unit_type: str, pixel_color: str):
         """Crates a new graph with given parameters for currently used username.
         Args:
             graphid (str): Represents the Id of the graph. It's a unique data and will be saved in a hashmap.
@@ -62,9 +60,8 @@ class Tracker():
         }
         response = requests.post(url=endpoint, json=graph_config, headers=self.headers)
         print(response.text)
-    
-    
-    def put_pixel(self, date:str, quantity:str, graphid:str):
+
+    def put_pixel(self, date: str, quantity: str, graphid: str):
         """Puts a pixel for given date and quantity. If quantity relatively higher than other pixels
         the color of it will be convert to dark tones of currently selected color.
         Args:
@@ -82,9 +79,8 @@ class Tracker():
             print(response.text)
         else:
             print("Graphid cannot be recognized.")
-        
-    
-    def update_pixel(self, date:str, quantity:str, graphid:str):
+
+    def update_pixel(self, date: str, quantity: str, graphid: str):
         """Updates a already existed pixel.
         Useful for fixing wrong inputs/entries.
         Args:
@@ -98,9 +94,8 @@ class Tracker():
             print(response.text)
         else:
             print("Graphid cannot be recognized.")
-    
-    
-    def delete_pixel(self, date:str, graphid:str):
+
+    def delete_pixel(self, date: str, graphid: str):
         """Deleting an existing entry.
         Args:
             date (str): Date of the entry that should be deleted. Should be in format yyyyMMdd.
@@ -111,8 +106,7 @@ class Tracker():
             print(response.text)
         else:
             print("Graphid cannot be recognized.")
-    
-    
+
     def read_graphs(self):
         """Reads and the existed graphs from a json data and saves into a dict variable.
         If there is no file, opens one.
@@ -120,11 +114,11 @@ class Tracker():
             _bool_: False if there is no graph data to read or file is not opened.
         """
         try:
-            file = open("intermediate+/habbit_tracker/graphs.json", mode="r")
+            file = open("/Users/kyotun/Desktop/python/intermediate+/habit_tracker/graphs.json", mode="r")
             json.load(file)
             file.close()
         except FileNotFoundError:
-            with open("intermediate+/habbit_tracker/graphs.json", mode="w") as file:
+            with open("graphs.json", mode="w") as file:
                 file.close()
             print("File was not found. New one is now opened.")
             return False
@@ -133,13 +127,12 @@ class Tracker():
             print("File can be empty.")
             return False
         else:
-            with open("intermediate+/habbit_tracker/graphs.json", mode="r") as file:
+            with open("intermediate+/habit_tracker/graphs.json", mode="r") as file:
                 self.graphs = json.load(file)
                 file.close()
             print("Datas are succesfully readed.")
             return True
-            
-            
+
     def save_graphs(self):
         """If there is graph to save and no json data, opens a json data and save them into it.
         If there is a empty json data, writes the graph datas into it.
@@ -147,34 +140,33 @@ class Tracker():
         """
         if self.graphs:
             try:
-                file = open("intermediate+/habbit_tracker/graphs.json", mode="r")
+                file = open("/Users/kyotun/Desktop/python/intermediate+/habit_tracker/graphs.json", mode="r")
                 json.load(file)
                 file.close()
             except FileNotFoundError as e:
                 print("File not found:", e)
-                with open("intermediate+/habbit_tracker/graphs.json", mode="w") as file:
+                with open("/Users/kyotun/Desktop/python/intermediate+/habit_tracker/graphs.json", mode="w") as file:
                     json.dump(self.graphs, file)
                     file.close()
                 print("File has opened and graph link is saved into it.")
             except json.decoder.JSONDecodeError as e:
                 print("JSONDecodeError:", e)
-                with open("intermediate+/habbit_tracker/graphs.json", mode="w") as file:
+                with open("/Users/kyotun/Desktop/python/intermediate+/habit_tracker/graphs.json", mode="w") as file:
                     json.dump(self.graphs, file)
                     file.close()
                 print("File was empty but data has been saved.")
             else:
-                with open("intermediate+/habbit_tracker/graphs.json", mode="r") as file:
+                with open("/Users/kyotun/Desktop/python/intermediate+/habit_tracker/graphs.json", mode="r") as file:
                     existed_graphs = json.load(file)
                     file.close()
                 existed_graphs.update(self.graphs)
-                with open("intermediate+/habbit_tracker/graphs.json", mode="w") as file:
+                with open("/Users/kyotun/Desktop/python/intermediate+/habit_tracker/graphs.json", mode="w") as file:
                     json.dump(existed_graphs, file)
                     file.close()
                 print("Graphs were saved.")
         else:
             print("There is no graph data to save.")
-        
-        
+
     def get_graph_urls(self):
         """
         Returns:
@@ -187,8 +179,8 @@ class Tracker():
             return urls
         else:
             print("No graph url to show.")
-    
-    def is_valid_url(self, url:str):
+
+    def is_valid_url(self, url: str):
         try:
             response = requests.head(url, allow_redirects=True)
             print(f"Response = {response}")
@@ -202,27 +194,24 @@ class Tracker():
             print(f"Final Response status code = {final_response.status_code}")
             print(f"Final Response JSON = {final_response.json()}")
             print(f"Final Response Text = {final_response.text}")
-            
-            if final_response.status_code == 200 and 'text/html' in final_response.headers.get('content-type', '').lower():
+
+            if final_response.status_code == 200 and 'text/html' in final_response.headers.get('content-type',
+                                                                                               '').lower():
                 return True  # Returns True if the final URL exists and responds with HTML content
             else:
                 return False
         except requests.RequestException:
             return False
-            
-            
-    def set_token(self, token:str):
+
+    def set_token(self, token: str):
         self.token = token
-    
-    
-    def set_username(self, username:str):
+
+    def set_username(self, username: str):
         self.username = username
-        
-    
-    def set_graph(self, graphid:str):
+
+    def set_graph(self, graphid: str):
         url = f"{self.url}/{self.username}/graphs/{graphid}.html"
         if self.is_valid_url(url=url):
             self.graphs[graphid] = url
         else:
             print("There is no URL under the name of this graphid.")
-        
