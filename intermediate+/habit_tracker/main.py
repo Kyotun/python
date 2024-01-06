@@ -15,14 +15,13 @@ while is_on:
     print("2)Create a new graph.")
     print("3)Give a new entry for existing graph.")
     print("4)Update an entry of existing graph.")
-    print("5)Delete an entry of existing graph")
-    print("6)Show urls of existing graphs.")
+    print("5)Delete an entry of existing graph.")
+    print("6)Get the informations of an entry.")
     print("7)Change the current token.")
     print("8)Change the current username.")
-    print("9)Enter a new graph link.")
-    print("10)Save the graphids and their urls.")
-    print("11)Load/Update the graphids and their urls.")
-    print("12)Exit.")
+    print("9)Load the graph informations.")
+    print("10)Show urls of existing graphs.")
+    print("11)Exit.")
     answer = int(input("Please choose an option:"))
     
     if answer == 1:
@@ -56,7 +55,9 @@ while is_on:
         date = input("Please enter the date(in format yyyyMMdd):")
         my_tracker.delete_pixel(graphid=graphid, date=date)
     elif answer == 6:
-        print(my_tracker.get_graph_urls())
+        graphid = input("Please enter graphid(just lower cases and numbers):")
+        date = input("Please enter the date(in format yyyyMMdd):")
+        my_tracker.get_pixel(graphid=graphid, date=date)
     elif answer == 7:
         new_token = input("Please enter the new token:")
         my_tracker.set_token(token=token)
@@ -64,13 +65,10 @@ while is_on:
         new_username = input("Please enter the new username:")
         my_tracker.set_username(username=username)
     elif answer == 9:
-        new_graphid = input("Please enter new graphs id:")
-        my_tracker.set_graph(graphid=new_graphid)
+        my_tracker.load_graphs()
     elif answer == 10:
-        my_tracker.save_graphs()
+        print(my_tracker.show_graph_infos())
     elif answer == 11:
-        my_tracker.read_graphs()
-    elif answer == 12:
         is_on = False
         print("See you later!")
         
