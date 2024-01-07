@@ -3,6 +3,10 @@ import os
 import datetime as dt
 from requests.auth import HTTPBasicAuth
 
+APP_ID = os.environ.get("APP_ID_NUTRI")
+APP_KEY = os.environ.get("APP_KEY_NUTRI")
+AUTH_KEY_BEARER = os.environ.get("APP_AUTH_NUTRI")
+
 class WorkoutTracker():
     def __init__(self) -> None:
         self.gender:str = ""
@@ -10,18 +14,19 @@ class WorkoutTracker():
         self.weight:int = 0
         self.age:int = 0
         
-        self.headers:str= {"Authorization": "", 
-                           "x-app-id": "", 
-                           "x-app-key": "", 
+        self.headers:str= {"Authorization": AUTH_KEY_BEARER, 
+                           "x-app-id": APP_ID, 
+                           "x-app-key": APP_KEY, 
                            "content-type": "application/json"}
         self.exercise_endpoint:str = "https://trackapi.nutritionix.com/v2/natural/exercise"
-        self.sheet_endpoint:str = ""
+        self.sheet_endpoint:str = "https://api.sheety.co/04fb3676394a9afdc57d00b4868f30df/workouts/tabellenblatt1"
+        self.sheet_name:str = ""
         
-        self.physical_properties()
-        self.account_infos()
+        self.set_physical_properties()
+        self.set_account_infos()
         
         
-    def physical_properties(self) -> None:
+    def set_physical_properties(self) -> None:
         """Asks user to his/hers phsical properties for accurate evaluation.
         """
         self.gender = input("Please enter your gender: ")
@@ -30,7 +35,7 @@ class WorkoutTracker():
         self.age = input("Please enter your age: ")
     
     
-    def account_infos(self) -> None:
+    def set_account_infos(self) -> None:
         """Asks user to the APP ID, APP Key if there is.
         Lastly it asks the auth token, if there is a authentication method and sets these given variables
         as self variables.
@@ -48,14 +53,16 @@ class WorkoutTracker():
         date_today = dt.datetime.now().strftime("%d/%m/%Y")
         time_now = dt.datetime.now().strftime("%X")
         
-        self.sheet_endpoint = input("Please give the URL of the sheet endpoint from sheety.")
-        sheet_name = input("Please enter the sheetname:")
+        if self.sheet_endpoint == "":
+            self.sheet_endpoint = input("Please give the URL of the sheet endpoint from sheety.")
+        if self.sheet_name == "":
+            self.sheet_name = input("Please enter the sheetname:")
         exercise = input("Which exercise(s) did you do?:")
         json_data = self.get_exercise_properties(exercise=exercise)
 
         for exercise in json_data["exercises"]:
             sheet_inputs = {
-                sheet_name : {
+                self.sheet_name : {
                     "date": date_today,
                     "time": time_now,
                     "exercise": exercise["name"].title(),
@@ -88,6 +95,18 @@ class WorkoutTracker():
         return json_data
         
         
+    def get_rows(self) -> None:
+        """Prints the rows of the target google sheet.
+        If sheet name is not pre-defined, asks user for sheet name.
+        """
+        response = requests.get(url=self.sheet_endpoint, headers=self.headers)
+        if self.sheet_name == "":
+            self.sheet_name = input("Please enter the sheet name from sheety:")
+        rows = response.json()[self.sheet_name]
+        for row in rows:
+            print(f"Date: {row['date']}, exercise: {row['exercise']}, calorie: {row['calories']}")
+    
+    
     def set_sheet_url(self, url:str) -> None:
         """Assigns the given url as new endpoint of sheet.
 
@@ -96,11 +115,10 @@ class WorkoutTracker():
         """
         self.sheet_endpoint = url
     
-    
-    def set_exercise_endpoint(self, url:str) -> None:
-        """Assigns the given url as new endpoint of exercises.
+    def set_sheet_name(self, sheet_name:str) -> None:
+        """Changes the currently available sheet name with the given one.
 
         Args:
-            url (str): Url of the exercises(eg. url from nutritionix app)
+            sheet_name (str): String that contains the new sheet name, that will be changed with the old sheet name.
         """
-        self.exercise_endpoint = url
+        self.sheet_name = sheet_name
