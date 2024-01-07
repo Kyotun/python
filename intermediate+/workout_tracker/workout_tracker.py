@@ -22,6 +22,8 @@ class WorkoutTracker():
         
         
     def physical_properties(self) -> None:
+        """Asks user to his/hers phsical properties for accurate evaluation.
+        """
         self.gender = input("Please enter your gender: ")
         self.weight = input("Please enter your weight in kg: ")
         self.height = input("Please enter your height in cm: ")
@@ -29,6 +31,10 @@ class WorkoutTracker():
     
     
     def account_infos(self) -> None:
+        """Asks user to the APP ID, APP Key if there is.
+        Lastly it asks the auth token, if there is a authentication method and sets these given variables
+        as self variables.
+        """
         self.headers["x-app-id"] = input("Please enter your Nutritionix APP ID(Press just enter if there is no.): ")
         self.headers["x-app-key"] = input("Please enter your Nutritionix APP Key(Press just enter if there is no.): ")
         if(input("Is there a auth method? 'y' or 'n': ") == 'y'):
@@ -36,6 +42,9 @@ class WorkoutTracker():
     
     
     def add_exercise(self) -> None:
+        """Asks user for the url and sheet name, then adds date, time, exercise etc. to the sheet for
+        each exercises.
+        """
         date_today = dt.datetime.now().strftime("%d/%m/%Y")
         time_now = dt.datetime.now().strftime("%X")
         
@@ -58,6 +67,15 @@ class WorkoutTracker():
             
             
     def get_exercise_properties(self, exercise:str) -> dict:
+        """Takes exercise in format of natural language. Give it to the predefined website for evaluation.
+        Takes the evaluations from the website and returns it as in json data format.
+
+        Args:
+            exercise (str): Exercise in natural language format.
+
+        Returns:
+            dict: Json data of the exercises. Contains calories, duration etc.
+        """
         parameters = {
             "query": exercise,
             "age": self.age,
@@ -71,8 +89,18 @@ class WorkoutTracker():
         
         
     def set_sheet_url(self, url:str) -> None:
-        self.sheet_url = url
+        """Assigns the given url as new endpoint of sheet.
+
+        Args:
+            url (str): Url of the sheet from sheety app.
+        """
+        self.sheet_endpoint = url
     
     
     def set_exercise_endpoint(self, url:str) -> None:
+        """Assigns the given url as new endpoint of exercises.
+
+        Args:
+            url (str): Url of the exercises(eg. url from nutritionix app)
+        """
         self.exercise_endpoint = url
