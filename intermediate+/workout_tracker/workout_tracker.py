@@ -9,19 +9,19 @@ class WorkoutTracker():
         self.height:int = 0
         self.weight:int = 0
         self.age:int = 0
-        self.name:str = ""
         
-        self.email:str = ""
-        self.headers:str= {"x-app-id": "", "x-app-key": "", "content-type": "application/json"}
+        self.headers:str= {"Authorization": "", 
+                           "x-app-id": "", 
+                           "x-app-key": "", 
+                           "content-type": "application/json"}
         self.exercise_endpoint:str = "https://trackapi.nutritionix.com/v2/natural/exercise"
-        self.sheet_endpoint:str = "https://api.sheety.co/04fb3676394a9afdc57d00b4868f30df/workouts/tabellenblatt1"
+        self.sheet_endpoint:str = ""
         
         self.physical_properties()
         self.account_infos()
         
         
     def physical_properties(self) -> None:
-        self.name = input("Please enter your name(eg. Alex Mustermann): ")
         self.gender = input("Please enter your gender: ")
         self.weight = input("Please enter your weight in kg: ")
         self.height = input("Please enter your height in cm: ")
@@ -29,22 +29,24 @@ class WorkoutTracker():
     
     
     def account_infos(self) -> None:
-        self.email = input("Please enter your email: ")
-        self.headers["x-app-id"] = input("Please enter your Nutritionix APP ID: ")
-        self.headers["x-app-key"] = input("Please enter your Nutritionix APP Key: ")
+        self.headers["x-app-id"] = input("Please enter your Nutritionix APP ID(Press just enter if there is no.): ")
+        self.headers["x-app-key"] = input("Please enter your Nutritionix APP Key(Press just enter if there is no.): ")
+        if(input("Is there a auth method? 'y' or 'n': ") == 'y'):
+            self.headers["Authorization"] = input("Please enter the token(in format -> Basic/Bearer TOKEN): ")
     
     
     def add_exercise(self) -> None:
         date_today = dt.datetime.now().strftime("%d/%m/%Y")
         time_now = dt.datetime.now().strftime("%X")
-        # self.sheet_endpoint = input("Please give the URL of the sheet endpoint from sheety.")
-        # sheet_name = input("Please enter the sheetname:")
+        
+        self.sheet_endpoint = input("Please give the URL of the sheet endpoint from sheety.")
+        sheet_name = input("Please enter the sheetname:")
         exercise = input("Which exercise(s) did you do?:")
         json_data = self.get_exercise_properties(exercise=exercise)
 
         for exercise in json_data["exercises"]:
             sheet_inputs = {
-                "tabellenblatt1": {
+                sheet_name : {
                     "date": date_today,
                     "time": time_now,
                     "exercise": exercise["name"].title(),
@@ -52,7 +54,7 @@ class WorkoutTracker():
                     "calories": exercise["nf_calories"]
                 }
             }
-            sheet_response = requests.post(url=self.sheet_endpoint, json=sheet_inputs)
+            sheet_response = requests.post(url=self.sheet_endpoint, json=sheet_inputs, headers=self.headers)
             
             
     def get_exercise_properties(self, exercise:str) -> dict:
