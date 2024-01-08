@@ -1,7 +1,7 @@
 import requests
 import os
 import datetime as dt
-from requests.auth import HTTPBasicAuth
+from tracker_exception import TrackerException
 
 APP_ID = os.environ.get("APP_ID_NUTRI")
 APP_KEY = os.environ.get("APP_KEY_NUTRI")
@@ -22,18 +22,61 @@ class WorkoutTracker():
         self.sheet_endpoint:str = "https://api.sheety.co/04fb3676394a9afdc57d00b4868f30df/workouts/tabellenblatt1"
         self.sheet_name:str = ""
         
-        self.set_physical_properties()
+        self.set_personal_properties()
         self.set_account_infos()
         
         
-    def set_physical_properties(self) -> None:
+    def check_weight(self, weight:int) -> int or Exception:
+        if weight < 0 or weight > 200:
+            raise TrackerException(message="Weight should be between 0-200")
+        return weight
+    
+    def check_gender(self, gender:str) -> int or Exception:
+        if gender != "male" and gender != "female":
+            raise TrackerException(message="Two genders only. Male and female.")
+        return gender
+    
+    def check_height(self, height:int) -> int or Exception:
+        if height < 50 or height > 300:
+            raise TrackerException(message="Height should be between 50-300.")
+        return height
+    
+    def check_age(self, age:int) -> int or Exception:
+        if age < 0 or age > 120:
+            raise TrackerException(message="Age should be between 0-120.")
+        return age
+        
+    def set_weight(self) -> None:
+        self.weight = self.check_weight(int(input("Please enter your weight in kg: ")))
+    
+    def set_gender(self) -> None:
+        self.gender = self.check_gender(input("Please enter your gender: ").lower())
+    
+    def set_height(self) -> None:
+        self.height = self.check_height(int(input("Please enter your height in cm: ")))
+    
+    def set_age(self) -> None:
+        self.age = self.check_age(int(input("Please enter your age: ")))
+        
+    def set_personal_properties(self) -> None:
         """Asks user to his/hers phsical properties for accurate evaluation.
         """
-        self.gender = input("Please enter your gender: ")
-        self.weight = input("Please enter your weight in kg: ")
-        self.height = input("Please enter your height in cm: ")
-        self.age = input("Please enter your age: ")
-    
+        try:
+            self.set_gender()
+            self.set_age()
+            self.set_height()
+            self.set_weight()
+        except ValueError as e:
+            print("Error by setting up the personal properties: Age, height and weight values should be number.")
+            print("Please try again.")
+            self.set_personal_properties()
+        except TrackerException as e:
+            print("Error by setting up the personal properties: ", e)
+            print("Please try again.")
+            self.set_personal_properties()
+
+            
+            
     
     def set_account_infos(self) -> None:
         """Asks user to the APP ID, APP Key if there is.

@@ -28,7 +28,7 @@ while is_on:
     elif answer == 4:
         my_tracker.set_sheet_name()
     elif answer == 5:
-        my_tracker.set_physical_properties()
+        my_tracker.set_personal_properties()
     elif answer == 6:
         my_tracker.set_account_infos()
     elif answer == 7:
