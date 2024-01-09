@@ -65,7 +65,7 @@ class WorkoutTracker():
         Args:
             special_key (str): ID/Key or Auth token from website Sheety.
             ID and Key belongs to the account, auth token belongs to the specific sheet.
-            exception_message (str): 
+            exception_message (str): If length of special key is equal to 0 or smaller, this message to be shown.
 
         Returns:
             TrackerException: Tracker Exception, for to show the reason to user.
@@ -84,20 +84,8 @@ class WorkoutTracker():
         self.exercise_endpoint = self.check_url(url=self.exercise_endpoint, input_message=exercise_endpoint_message)
         
     def check_url(self, url:str, input_message:str = "Given URL is empty, please give a valid URL: ") -> Exception or str:
-        """Checks the given URL if it is empty string or not.
-        If it's a empty one, asks user for its URL and then validates it.
-        If response is 200, returns the url. If not 200, raises an exception.
-
-        Args:
-            url (str): URL to be controlled.
-            input_message (str): Message for asking user for the URL.
-
-        Raises:
-            TrackerException: Exception, for to show the reason of the error to user.
-            
-        Returns:
-            Exception or str: If URL isn't valid, an exception will be retuned.
-            If it's valid, url will be retuned.
+        """If the given URL has the response 200, url will be returned. Otherwise an exception will be raised.
+        If URL is empty string, it will be asked to user.
         """
         if url == "":
             url = input(input_message)
@@ -106,15 +94,9 @@ class WorkoutTracker():
         return url
     
     def check_sheet_name(self, sheet_name:str, input_message:str = "Please enter the sheet name: ") -> str:
-        """Checks the given sheet name if it is empty string or not.
-        If it's a empty string, asks user with given input message for its name.
-
-        Args:
-            sheet_name (str): Name of the sheet(excel document).
-            input_message (str): Will be shown while asking user the sheet name if it's empty.
-
-        Returns:
-            str: Sheet name in string data type.
+        """If sheet name is empty, asks user for it.
+        Sheet name from user and sheet name at the end of the sheet url should match.
+        If they're not matching, an exception will be raised.
         """
         sheet_name_from_sheet_endpoint = self.sheet_endpoint.split("/")[-1]
         if sheet_name == "":
@@ -124,52 +106,17 @@ class WorkoutTracker():
         return sheet_name
             
     def check_exercise_data(self, exercise_list:str) -> Exception or str:
-        """Checks the given exercise list. If its length is 0, raise an error to give warning to user.
-
-        Args:
-            exercise_list (str): Contains the exercises and their relevant informations.
-
-        Raises:
-            TrackerException: Exception, for to show the reason to user.
-
-        Returns:
-            Exception or str: If length is not 0, exercise list will be returned. Otherwise, an exception will occur.
-        """
         if len(exercise_list) == 0:
             raise TrackerException(message="There is no matching exercise data. Please try to write your exercise entry again.")
         return exercise_list
         
         
     def check_weight(self, weight:int) -> int or Exception:
-        """Checks the weight, if it's in a logical range it will be accepted and will be returned.
-        If not in logical range, an exception will be raised.
-
-        Args:
-            weight (int): Weight of the user in integer type.
-
-        Raises:
-            TrackerException: Exception, for to show the reason to user.
-
-        Returns:
-            int or Exception: If no exception, weight will be returned.
-        """
         if weight < 0 or weight > 200:
             raise TrackerException(message="Weight should be between 0-200")
         return weight
     
     def check_gender(self, gender:str) -> str or Exception:
-        """Checks the gender of the user. Only two gender will be allowed.
-
-        Args:
-            gender (str): Male or Female.(Not case sensitive)
-
-        Raises:
-            TrackerException: Exception, for to show the reason to user.
-
-        Returns:
-            int or Exception: If the given gender is logical, gender will be retuned. If not, an exception
-            will be raised.
-        """
         if gender != "male" and gender != "female":
             raise TrackerException(message="Two genders only. Male and female.")
         return gender
@@ -190,7 +137,7 @@ class WorkoutTracker():
         Takes the evaluations from the website and returns it as in list format.
 
         Args:
-            exercise (str): Exercise in natural language format.
+            exercise (str): Exercise(s) in natural language format.
 
         Returns:
             list: List of the exercises. Contains calories, duration etc.
@@ -220,6 +167,12 @@ class WorkoutTracker():
         rows = response.json()[self.sheet_name]
         for row in rows:
             print(f"Date: {row['date']}, exercise: {row['exercise']}, calorie: {row['calories']}")
+            
+    def get_exercise_url(self) -> str:
+        return self.exercise_endpoint
+    
+    def get_sheet_url(self) -> str:
+        return self.sheet_endpoint
     
     def get_sheet_name(self) -> str:
         return self.sheet_name
@@ -238,14 +191,6 @@ class WorkoutTracker():
     
     # SETTERS
     def set_personal_properties(self, gender:str, age:int, height:int, weight:int) -> None:
-        """Takes 4 args. Gives these arguments to the functions, which they're belong.
-
-        Args:
-            gender (str): Gender of the user, to be assigned as new gender of the account. 2 options, 'male' or 'female'. Not case sensitive.
-            age (int): Age of the user, to be assigned as new age of the account.
-            height (int): Height of the user, to be assigned as new height of the account.
-            weight (int): Weight of the user, to be assigned as new weight of the account.
-        """
         self.set_gender(gender=gender)
         self.set_age(age=age)
         self.set_height(height=height)
@@ -267,12 +212,11 @@ class WorkoutTracker():
         
         
     def set_account_infos(self, app_id:str, app_key:str) -> None:
-        """Takes 3 args and gives these arguments to the checkers functions to be checked if they're valid.
+        """Takes 2 args and gives these arguments to the checkers functions to be checked if they're valid.
 
         Args:
             app_id (str): APP Id of the user from website Sheety.
             app_key (str): APP Key of the user from website Sheety.
-            authorization (str, optional): Auth token of the user from website Sheety. Defaults to "".
         """
         self.set_app_id(app_id=app_id)
         self.set_app_key(app_key=app_key)
@@ -305,29 +249,16 @@ class WorkoutTracker():
         self.sheet_endpoint = self.check_url(url=sheet_url)
     
     def set_sheet_name(self, sheet_name:str) -> None:
-        """Checks the given sheet name if it's valid. Then changes the currently available sheet name with the given one.
-
-        Args:
-            sheet_name (str): String that contains the new sheet name, that will be changed with the old sheet name.
-        """
         self.sheet_name = self.check_sheet_name(sheet_name=sheet_name, input_message="Please enter the sheet name of yours from website Sheety: ")
     
     def set_weight(self, weight:int) -> None:
-        """First checks the given weight, if it's in logical range, given weight will be assigned as new weight.
-        """
         self.weight = self.check_weight(weight=weight)
     
     def set_gender(self, gender:str) -> None:
-        """First checks the given gender, if it's in logical range, given height will be assigned as new height.
-        """
         self.gender = self.check_gender(gender=gender)
     
     def set_height(self, height:int) -> None:
-        """First checks the given height, if it's in logical range, given height will be assigned as new height.
-        """
         self.height = self.check_height(height=height)
     
     def set_age(self, age:int) -> None:
-        """First checks the given age, if it's in logical range, given age will be assigned as new age.
-        """
         self.age = self.check_age(age=age)
