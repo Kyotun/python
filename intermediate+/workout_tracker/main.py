@@ -2,12 +2,16 @@ from workout_tracker import WorkoutTracker
 from tracker_exception import TrackerException
 
 def account_infos():
+    """Asks user to APP ID and APP Key from website Sheety.
+    """
     app_id = input("Please enter your APP Id from Sheety website.")
     app_key = input("Please enter your APP Id from Sheety website.")
     my_tracker.set_account_infos(app_id=app_id, app_key=app_key)
     
     
 def sheet_infos():
+    """Asks user to the sheet information to save the datas of the tracked exercise/workout.
+    """
     authorization = ""
     if (input("Do your sheet has an authorization token(basic or bearer)? 'y' or 'n': ").lower()) == 'y':
         authorization = input("Please enter your authorization token: ")
@@ -16,6 +20,8 @@ def sheet_infos():
     
     
 def physical_infos():
+    """Asks user to his/her physical informations to set the infos for the tracker.
+    """
     gender = input("Please enter your gender('male' or 'female'): ").lower()
     weight = int(input("Please enter your weight(in kg, just numbers): "))
     height = int(input("Please enter your height(in cm, just numbers): "))
@@ -62,7 +68,10 @@ while is_on:
     try:
         answer = int(input("Please choose an option: "))
         if answer == 1:
-            my_tracker.add_exercise()
+            # First endpoints
+            # Second sheet name
+            exercise = input("Which exercise(s) did you do?:")
+            my_tracker.add_exercise(exercise=exercise)
         elif answer == 2:
             my_tracker.get_rows()
         elif answer == 3:
@@ -85,13 +94,13 @@ while is_on:
             my_tracker.set_weight(weight=weight)
         elif answer == 10:
             age = int(input("Please enter your age: "))
-            my_tracker.set_age()
+            my_tracker.set_age(age=age)
         elif answer == 11:
             gender = int(input("Please enter your gender(male or female): "))
-            my_tracker.set_gender()
+            my_tracker.set_gender(gender=gender)
         elif answer == 12:
             height = int(input("Please enter your height: "))
-            my_tracker.set_height()
+            my_tracker.set_height(height=height)
         elif answer == 13:
             is_on = False
             print("See you later!")

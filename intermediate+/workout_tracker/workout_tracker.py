@@ -12,7 +12,7 @@ SHEET_ENDPOINT = "https://api.sheety.co/04fb3676394a9afdc57d00b4868f30df/workout
 
 class WorkoutTracker():
     """Tracker of workouts.
-    Takes the exercise informations from nutritionix website and saves the entries with help of sheety app to the given google sheet.
+    Takes the exercise informations from website Nutritionix and saves the entries with help of the website Sheety to the given google sheet.
     In the beginning, personal properties and account informations should be given.
     """
     def __init__(self) -> None:
@@ -29,13 +29,19 @@ class WorkoutTracker():
         self.sheet_endpoint:str = SHEET_ENDPOINT
         self.sheet_name:str = ""
         
-    def add_exercise(self) -> None:
-        """Checks first if endpoints and sheet name are valid. Then asks user the exercise(s). For given exercise(s)
-        create row(s) in given sheet.
+    def add_exercise(self, exercise:str) -> None:
+        """Checks the endpoints and sheet name first then give the exercise(text from user in natural language)
+        to the webiste Nutritionix. Gets the evaluated informations from the website in list format.
+        Exercise list contains informations like calories burned, duration in min etc. for every exercise.
+        Give these information to the given google sheet url in form of columns.
+        Columns should be pre exist in google sheet.
+        Columns are -> 'date', 'time', 'exercise', 'duration', 'calories'.
+        
+        Args:
+            exercise (str): Descriptopn of exercises in natural english language that user did.
         """
         self.check_endpoints()
         self.check_sheet_name(sheet_name=self.sheet_name, input_message="Please enter the sheet name: ")
-        exercise = input("Which exercise(s) did you do?:")
         exercise_list = self.get_exercise_properties(exercise=exercise)
         
         date_today = dt.datetime.now().strftime("%d/%m/%Y")
@@ -57,7 +63,7 @@ class WorkoutTracker():
         """Checks the given app id. If its length <= 0, raises a TrackerException.
 
         Args:
-            app_id (str): App ID of sheety account.
+            app_id (str): App ID of account from website Sheety.
 
         Raises:
             TrackerException: Exception, for to show the reason to user.
@@ -74,7 +80,7 @@ class WorkoutTracker():
         """Checks the given app key. If its length <= 0, raises a TrackerException.
 
         Args:
-            app_key (str): APP KEY of sheety account.
+            app_key (str): APP KEY of account from website Sheety.
 
         Raises:
             TrackerException: Exception, for to show the reason to user.
@@ -89,10 +95,10 @@ class WorkoutTracker():
     
     def check_auth_token(self, auth_token:str) -> TrackerException or str:
         """Checks the given auth token. If its length <= 0, raises a TrackerException.
-        This auth token belongs to the specific project from Sheety website.
+        This auth token belongs to the specific project from webiste Sheety.
 
         Args:
-            auth_token (str): Auth Token of sheety account.
+            auth_token (str): Auth Token of the sheet from website Sheety.
 
         Raises:
             TrackerException: Exception, for to show the reason to user.
@@ -108,8 +114,8 @@ class WorkoutTracker():
     def check_endpoints(self):
         """Checks the URL of the exercise and sheet endpoints. If there is a empty one, asks user for the URL.
         """
-        exercise_endpoint_message = "Please give the URL of the exercise endpoint from nutritionix website: "
-        sheet_endpoint_message = "Please give the URL of the sheet endpoint from sheety: "
+        exercise_endpoint_message = "Please give the URL of the exercise endpoint from website Nutritionix: "
+        sheet_endpoint_message = "Please give the URL of the sheet endpoint from website Sheety: "
         self.sheet_endpoint = self.check_url(url=self.sheet_endpoint, input_message=sheet_endpoint_message)
         self.exercise_endpoint = self.check_url(url=self.exercise_endpoint, input_message=exercise_endpoint_message)
         
@@ -141,7 +147,7 @@ class WorkoutTracker():
 
         Args:
             sheet_name (str): Name of the sheet(excel document).
-            input_message (str): Will be shown while asking user the sheet name.
+            input_message (str): Will be shown while asking user the sheet name if it's empty.
 
         Returns:
             str: Sheet name in string data type.
@@ -217,14 +223,14 @@ class WorkoutTracker():
             
     # GETTERS
     def get_exercise_properties(self, exercise:str) -> dict:
-        """Takes exercise in format of natural language. Give it to the predefined website for evaluation.
-        Takes the evaluations from the website and returns it as in json data format.
+        """Takes exercise in format of natural language. Give it to the exercise endpoint website(Nutritionix) for evaluation.
+        Takes the evaluations from the website and returns it as in list format.
 
         Args:
             exercise (str): Exercise in natural language format.
 
         Returns:
-            dict: Json data of the exercises. Contains calories, duration etc.
+            list: List of the exercises. Contains calories, duration etc.
         """
         parameters = {
             "query": exercise,
@@ -239,15 +245,32 @@ class WorkoutTracker():
         
         
     def get_rows(self) -> None:
-        """Prints the rows of the saved google sheet.
-        If sheet name is not pre-defined, asks user for sheet name.
+        """First checks the endpoints if they're exist and valid.
+        Second checks the sheet name if it's valid too.
+        If sheet name is not defined(empty), asks user for sheet name.
+        At the end, Prints the rows of the saved google sheet.
         """
         self.check_endpoints()
         response = requests.get(url=self.sheet_endpoint, headers=self.headers)
-        self.sheet_name = self.check_sheet_name(sheet_name=self.sheet_name, input_message="Please enter the sheet name from sheety: ")
+        self.sheet_name = self.check_sheet_name(sheet_name=self.sheet_name, input_message="Please enter the sheet name of yours from website Sheety: ")
         rows = response.json()[self.sheet_name]
         for row in rows:
             print(f"Date: {row['date']}, exercise: {row['exercise']}, calorie: {row['calories']}")
+    
+    def get_sheet_name(self) -> str:
+        return self.sheet_name
+    
+    def get_gender(self) -> str:
+        return self.gender
+    
+    def get_height(self) -> str:
+        return self.height
+    
+    def get_weight(self) -> str:
+        return self.weight
+    
+    def get_age(self) -> str:
+        return self.age
     
     # SETTERS
     def set_personal_properties(self, gender:str, age:int, height:int, weight:int) -> None:
@@ -270,7 +293,7 @@ class WorkoutTracker():
         should be given too.
 
         Args:
-            sheet_name (str): Sheet name of the project from the Sheety website.
+            sheet_name (str): Sheet name of the project from the website Sheety.
             authorization (str, optional): Authorization token for the sheet(Basic or Bearer). Defaults to "".
         """
         if authorization != "":
@@ -282,9 +305,9 @@ class WorkoutTracker():
         """Takes 3 args and gives these arguments to the checkers functions to be checked if they're valid.
 
         Args:
-            app_id (str): APP Id of the user from Sheety website.
-            app_key (str): APP Key of the user from Sheety website.
-            authorization (str, optional): Auth token of the user from Sheety website. Defaults to "".
+            app_id (str): APP Id of the user from website Sheety.
+            app_key (str): APP Key of the user from website Sheety.
+            authorization (str, optional): Auth token of the user from website Sheety. Defaults to "".
         """
         self.headers["x-app-id"] = self.check_app_id(app_id=app_id)
         self.headers["x-app-key"] = self.check_app_key(app_key=app_key)
@@ -295,7 +318,7 @@ class WorkoutTracker():
         the given url as new endpoint of exercises, if the URL is valid.
 
         Args:
-            url (str): Url of the exercises from nutritionix app.
+            url (str): Url of the exercises from website Nutritionix.
         """
         self.exercise_endpoint = self.check_url(url=exercise_url)
         
@@ -304,7 +327,7 @@ class WorkoutTracker():
         the given url as new endpoint of sheet, if the URL is valid.
 
         Args:
-            url (str): Url of the sheet from Sheety website.
+            url (str): Url of the sheet from website Sheety.
         """
         self.sheet_endpoint = self.check_url(url=sheet_url)
     
