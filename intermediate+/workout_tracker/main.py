@@ -4,8 +4,8 @@ from tracker_exception import TrackerException
 def account_infos():
     """Asks user to APP ID and APP Key from website Sheety.
     """
-    app_id = input("Please enter your APP Id from Sheety website.")
-    app_key = input("Please enter your APP Id from Sheety website.")
+    app_id = input("Please enter your APP ID from Sheety website: ")
+    app_key = input("Please enter your APP Key from Sheety website: ")
     my_tracker.set_account_infos(app_id=app_id, app_key=app_key)
     
     
@@ -16,7 +16,8 @@ def sheet_infos():
     if (input("Do your sheet has an authorization token(basic or bearer)? 'y' or 'n': ").lower()) == 'y':
         authorization = input("Please enter your authorization token: ")
     sheet_name = input("Please enter the sheet name: ")
-    my_tracker.set_sheet_infos(sheet_name=sheet_name, authorization=authorization)
+    sheet_endpoint_url = input("Please give the URL of the sheet endpoint: ")
+    my_tracker.set_sheet_infos(sheet_name=sheet_name, sheet_endpoint=sheet_endpoint_url, authorization=authorization)
     
     
 def physical_infos():

@@ -141,7 +141,7 @@ class WorkoutTracker():
             raise TrackerException(message=f"{url} is not valid.")
         return url
     
-    def check_sheet_name(self, sheet_name:str, input_message:str) -> str:
+    def check_sheet_name(self, sheet_name:str, input_message:str = "Please enter the sheet name: ") -> str:
         """Checks the given sheet name if it is empty string or not.
         If it's a empty string, asks user with given input message for its name.
 
@@ -288,7 +288,7 @@ class WorkoutTracker():
         self.set_weight(weight=weight)
             
     
-    def set_sheet_infos(self, sheet_name:str, authorization:str="") -> None:
+    def set_sheet_infos(self, sheet_name:str, sheet_endpoint:str, authorization:str="") -> None:
         """Sets the sheet infos for the assigned sheet url. If sheet url has an authorization method, authorization information
         should be given too.
 
@@ -298,6 +298,7 @@ class WorkoutTracker():
         """
         if authorization != "":
             self.headers["Authorization"] = authorization
+        self.set_sheet_url(sheet_url=sheet_endpoint)
         self.set_sheet_name(sheet_name=sheet_name)
         
         
