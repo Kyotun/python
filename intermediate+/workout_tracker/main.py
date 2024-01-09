@@ -15,8 +15,8 @@ def sheet_infos():
     authorization = ""
     if (input("Do your sheet has an authorization token(basic or bearer)? 'y' or 'n': ").lower()) == 'y':
         authorization = input("Please enter your authorization token: ")
-    sheet_name = input("Please enter the sheet name: ")
     sheet_endpoint_url = input("Please give the URL of the sheet endpoint: ")
+    sheet_name = input("Please enter the sheet name: ")
     my_tracker.set_sheet_infos(sheet_name=sheet_name, sheet_endpoint=sheet_endpoint_url, authorization=authorization)
     
     
@@ -77,13 +77,13 @@ while is_on:
             my_tracker.get_rows()
         elif answer == 3:
             sheet_url = input("Please give a valid sheet endpoint url: ")
-            my_tracker.set_sheet_url(url=sheet_url)
+            my_tracker.set_sheet_url(sheet_url=sheet_url)
         elif answer == 4:
             sheet_name = input("Please give a valid sheet name: ")
             my_tracker.set_sheet_name(sheet_name=sheet_name)
         elif answer == 5:
             exercise_url = input("Please give a valid exercise endpoint url: ")
-            my_tracker.set_exercise_url(url=exercise_url)
+            my_tracker.set_exercise_url(exercise_url==exercise_url)
         elif answer == 6:
             physical_infos()
         elif answer == 7:
