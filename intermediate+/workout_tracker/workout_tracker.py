@@ -21,12 +21,12 @@ class WorkoutTracker():
         self.weight:int = 0
         self.age:int = 0
         
-        self.headers:str= {"Authorization": AUTH_KEY_BEARER, 
-                           "x-app-id": APP_ID, 
-                           "x-app-key": APP_KEY, 
+        self.headers:str= {"Authorization": "", 
+                           "x-app-id": "", 
+                           "x-app-key": "", 
                            "content-type": "application/json"}
         self.exercise_endpoint:str = EXERCISE_ENDPOINT
-        self.sheet_endpoint:str = SHEET_ENDPOINT
+        self.sheet_endpoint:str = ""
         self.sheet_name:str = ""
         
     def add_exercise(self, exercise:str) -> None:
@@ -59,57 +59,21 @@ class WorkoutTracker():
             sheet_response = requests.post(url=self.sheet_endpoint, json=sheet_inputs, headers=self.headers)
     
     # CHECKERS
-    def check_app_id(self, app_id:str) -> TrackerException or str:
-        """Checks the given app id. If its length <= 0, raises a TrackerException.
+    def check_special_keys(self, special_key:str, exception_message:str) -> TrackerException or str:
+        """Checks the given key. If its length <= 0, raises a Tracker Exception.
 
         Args:
-            app_id (str): App ID of account from website Sheety.
-
-        Raises:
-            TrackerException: Exception, for to show the reason to user.
-
-        Returns:
-            TrackerException or str: If length <= 0, a TrackerException will be raised.
-            In case of success -> APP ID will be returned.
-        """
-        if len(app_id) <= 0:
-            raise TrackerException(message="Length of APP Id cannot be shorter or equal to 0.")
-        return app_id
-    
-    def check_app_key(self, app_key:str) -> TrackerException or str:
-        """Checks the given app key. If its length <= 0, raises a TrackerException.
-
-        Args:
-            app_key (str): APP KEY of account from website Sheety.
-
-        Raises:
-            TrackerException: Exception, for to show the reason to user.
+            special_key (str): ID/Key or Auth token from website Sheety.
+            ID and Key belongs to the account, auth token belongs to the specific sheet.
+            exception_message (str): 
 
         Returns:
-            TrackerException or str:  If length <= 0, a TrackerException will be raised.
-            In case of success -> APP KEY will be returned.
+            TrackerException: Tracker Exception, for to show the reason to user.
+            str: Given special key(ID, key or auth token).
         """
-        if len(app_key) <= 0:
-            raise TrackerException(message="Length of APP Key cannot be shorter or equal to 0.")
-        return app_key
-    
-    def check_auth_token(self, auth_token:str) -> TrackerException or str:
-        """Checks the given auth token. If its length <= 0, raises a TrackerException.
-        This auth token belongs to the specific project from webiste Sheety.
-
-        Args:
-            auth_token (str): Auth Token of the sheet from website Sheety.
-
-        Raises:
-            TrackerException: Exception, for to show the reason to user.
-
-        Returns:
-            TrackerException or str: If length <= 0, a TrackerException will be raised.
-            In case of success -> Auth Token will be returned.
-        """
-        if len(auth_token) <= 0:
-            raise TrackerException(message="Length of Auth token cannot be shorter or equal to 0.")
-        return auth_token
+        if len(special_key) <= 0:
+            raise TrackerException(message=exception_message)
+        return special_key
     
     def check_endpoints(self):
         """Checks the URL of the exercise and sheet endpoints. If there is a empty one, asks user for the URL.
@@ -158,7 +122,6 @@ class WorkoutTracker():
         if sheet_name != sheet_name_from_sheet_endpoint:
             raise TrackerException(message=f"Given sheet name {sheet_name} doesn't match with sheet name of sheet endpoint url {sheet_name_from_sheet_endpoint}.")
         return sheet_name
-            
             
     def check_exercise_data(self, exercise_list:str) -> Exception or str:
         """Checks the given exercise list. If its length is 0, raise an error to give warning to user.
@@ -252,6 +215,7 @@ class WorkoutTracker():
         """
         self.check_endpoints()
         response = requests.get(url=self.sheet_endpoint, headers=self.headers)
+        print(response, response.text, response.json(), response.status_code)
         self.sheet_name = self.check_sheet_name(sheet_name=self.sheet_name, input_message="Please enter the sheet name of yours from website Sheety: ")
         rows = response.json()[self.sheet_name]
         for row in rows:
@@ -297,7 +261,7 @@ class WorkoutTracker():
             authorization (str, optional): Authorization token for the sheet(Basic or Bearer). Defaults to "".
         """
         if authorization != "":
-            self.headers["Authorization"] = authorization
+            self.set_auth_token(auth_token=authorization)
         self.set_sheet_url(sheet_url=sheet_endpoint)
         self.set_sheet_name(sheet_name=sheet_name)
         
@@ -310,10 +274,18 @@ class WorkoutTracker():
             app_key (str): APP Key of the user from website Sheety.
             authorization (str, optional): Auth token of the user from website Sheety. Defaults to "".
         """
-        self.headers["x-app-id"] = self.check_app_id(app_id=app_id)
-        self.headers["x-app-key"] = self.check_app_key(app_key=app_key)
+        self.set_app_id(app_id=app_id)
+        self.set_app_key(app_key=app_key)
             
-            
+    def set_app_id(self, app_id:str) -> None:
+        self.headers["x-app-id"] = self.check_special_keys(special_key=app_id, exception_message="Length of APP ID cannot be shorter or equal to 0.")
+    
+    def set_app_key(self, app_key:str) -> None:
+        self.headers["x-app-key"] = self.check_special_keys(special_key=app_key, exception_message="Length of APP Key cannot be shorter or equal to 0.")
+        
+    def set_auth_token(self, auth_token:str) -> None:
+        self.headers["Authorization"] = self.check_special_keys(special_key=auth_token, exception_message="Length of Auth token cannot be shorter or equal to 0.") 
+    
     def set_exercise_url(self, exercise_url:str) -> None:
         """Checks the given exercise url if it's valid or not and then assigns 
         the given url as new endpoint of exercises, if the URL is valid.
@@ -338,7 +310,7 @@ class WorkoutTracker():
         Args:
             sheet_name (str): String that contains the new sheet name, that will be changed with the old sheet name.
         """
-        self.sheet_name = self.check_sheet_name(sheet_name=sheet_name)
+        self.sheet_name = self.check_sheet_name(sheet_name=sheet_name, input_message="Please enter the sheet name of yours from website Sheety: ")
     
     def set_weight(self, weight:int) -> None:
         """First checks the given weight, if it's in logical range, given weight will be assigned as new weight.

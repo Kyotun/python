@@ -107,6 +107,12 @@ while is_on:
             print("See you later!")
         else:
             print("Please enter a valid option.")
+    except KeyError as e:
+        print("Error: ", e)
+        print("Possible situations:")
+        print("Unvalid ID or/and Key, that's why response is not optimal.")
+        print("There can be an auth token. Please check that again.")
+        print("Sheet names aren't matching.")
     except ValueError as e:
         print("Error: ", e)
         print("Please be careful by giving the values. Some values should be number rather then character.")
