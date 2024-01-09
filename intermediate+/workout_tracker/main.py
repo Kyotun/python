@@ -104,19 +104,19 @@ while is_on:
             height = int(input("Please enter your height: "))
             my_tracker.set_height(height=height)
         elif answer == 10:
-            print(my_tracker.get_sheet_url())
+            print(f"Current sheet URL: {my_tracker.get_sheet_url()}")
         elif answer == 11:
-            print(my_tracker.get_sheet_name())
+            print(f"Current sheet name: {my_tracker.get_sheet_name()}")
         elif answer == 12:
-            print(my_tracker.get_exercise_url())
+            print(f"Current exercise URL: {my_tracker.get_exercise_url()}")
         elif answer == 13:
-            print(my_tracker.get_weight())
+            print(f"Current weight: {my_tracker.get_weight()}")
         elif answer == 14:
-            print(my_tracker.get_age())
+            print(f"Current age: {my_tracker.get_age()} years old.")
         elif answer == 15:
-            print(my_tracker.get_gender())
+            print(f"Current gender: {my_tracker.get_gender()}.")
         elif answer == 16:
-            print(my_tracker.get_height())
+            print(f"Current height: {my_tracker.get_height()}cm.")
         elif answer == 17:
             physical_infos()
         elif answer == 18:
