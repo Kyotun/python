@@ -55,17 +55,24 @@ while is_on:
     print("Options:")
     print("1)Add exercise to sheet.")
     print("2)Show entries of workouts.")
-    print("3)Change the sheet endpoint url from sheety web.")
+    print("3)Change the sheet endpoint URL from website Sheety.")
     print("4)Change the existing sheet name.")
-    print("5)Change the exercise endpoint url.")
-    print("6)Give physical informations again.")
-    print("7)Give accocunt informations again.")
-    print("8)Give sheet informations again.")
-    print("9)Change the current weight.")
-    print("10)Change the current age.")
-    print("11)Change the current gender.")
-    print("12)Change the current height.")
-    print("13)Exit.")
+    print("5)Change the exercise endpoint URL.")
+    print("6)Change the current weight.")
+    print("7)Change the current age.")
+    print("8)Change the current gender.")
+    print("9)Change the current height.")
+    print("10)Show the current sheet endpoint URL from website Sheety.")
+    print("11)Show the current sheet name.")
+    print("12)Show the exercise endpoint URL")
+    print("13)Show the current weight.")
+    print("14)Show the current age.")
+    print("15)Show the current gender.")
+    print("16)Show the current height.")
+    print("17)Give physical informations again.")
+    print("18)Give accocunt informations again.")
+    print("19)Give sheet informations again.")
+    print("20)Exit.")
     try:
         answer = int(input("Please choose an option: "))
         if answer == 1:
@@ -85,24 +92,38 @@ while is_on:
             exercise_url = input("Please give a valid exercise endpoint url: ")
             my_tracker.set_exercise_url(exercise_url==exercise_url)
         elif answer == 6:
-            physical_infos()
-        elif answer == 7:
-            account_infos()
-        elif answer == 8:
-            sheet_infos()
-        elif answer == 9:
             weight = int(input("Please enter your weight: "))
             my_tracker.set_weight(weight=weight)
-        elif answer == 10:
+        elif answer == 7:
             age = int(input("Please enter your age: "))
             my_tracker.set_age(age=age)
-        elif answer == 11:
+        elif answer == 8:
             gender = int(input("Please enter your gender(male or female): "))
             my_tracker.set_gender(gender=gender)
-        elif answer == 12:
+        elif answer == 9:
             height = int(input("Please enter your height: "))
             my_tracker.set_height(height=height)
+        elif answer == 10:
+            print(my_tracker.get_sheet_url())
+        elif answer == 11:
+            print(my_tracker.get_sheet_name())
+        elif answer == 12:
+            print(my_tracker.get_exercise_url())
         elif answer == 13:
+            print(my_tracker.get_weight())
+        elif answer == 14:
+            print(my_tracker.get_age())
+        elif answer == 15:
+            print(my_tracker.get_gender())
+        elif answer == 16:
+            print(my_tracker.get_height())
+        elif answer == 17:
+            physical_infos()
+        elif answer == 18:
+            account_infos()
+        elif answer == 19:
+            sheet_infos()
+        elif answer == 20:
             is_on = False
             print("See you later!")
         else:

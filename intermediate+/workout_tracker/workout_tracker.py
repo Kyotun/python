@@ -33,7 +33,7 @@ class WorkoutTracker():
         """Checks the endpoints and sheet name first then give the exercise(text from user in natural language)
         to the webiste Nutritionix. Gets the evaluated informations from the website in list format.
         Exercise list contains informations like calories burned, duration in min etc. for every exercise.
-        Give these information to the given google sheet url in form of columns.
+        This function enters these information to the given google sheet url in form of columns.
         Columns should be pre exist in google sheet.
         Columns are -> 'date', 'time', 'exercise', 'duration', 'calories'.
         
@@ -161,8 +161,8 @@ class WorkoutTracker():
         At the end, Prints the rows of the saved google sheet.
         """
         self.check_endpoints()
+        # RESPONSE TO BE CHECKED
         response = requests.get(url=self.sheet_endpoint, headers=self.headers)
-        print(response, response.text, response.json(), response.status_code)
         self.sheet_name = self.check_sheet_name(sheet_name=self.sheet_name, input_message="Please enter the sheet name of yours from website Sheety: ")
         rows = response.json()[self.sheet_name]
         for row in rows:
