@@ -62,7 +62,6 @@ class WorkoutTracker():
             sheet_response = requests.post(url=self.sheet_endpoint, json=sheet_inputs, headers=self.header_sheet)
             sheet_exception_message = "Problem occured by getting response from sheet. Please check the auth token and/or connection beetween website Sheety and to your google sheet."
             self.check_response(response_code=sheet_response.status_code, exception_message=sheet_exception_message)
-            print(f"Sheet response text: {sheet_response.text}, sheet response json: {sheet_response.json()}, sheet response status code: {sheet_response.status_code}")
     
     # CHECKERS
     def check_special_keys(self, special_key:str, exception_message:str) -> TrackerException or str:
@@ -117,7 +116,7 @@ class WorkoutTracker():
             
     def check_exercise_data(self, exercise_list:list) -> TrackerException or list:
         if len(exercise_list) == 0:
-            raise TrackerException(message="There is no matching exercise data. Please try to write your exercise entry again.")
+            raise TrackerException(message="There is no matching data for given exercise(s). Please try to rewrite the entry of exercise(s) again.")
         return exercise_list
         
         
@@ -162,8 +161,7 @@ class WorkoutTracker():
         exercise_response = requests.post(url=self.exercise_endpoint, json=parameters, headers=self.header_exercise)
         exercise_exception_message = "Problem occured by getting response from website Nutritionix. Please check APP ID or/and APP Key."
         self.check_response(response_code=exercise_response.status_code, exception_message=exercise_exception_message)
-        print(f"Exercise response = {exercise_response}, exercise response text: {exercise_response.text}, exer")
-        exercise_list = self.check_exercise_data(exercise_data=exercise_response.json()["exercises"])
+        exercise_list = self.check_exercise_data(exercise_list=exercise_response.json()["exercises"])
         return exercise_list
         
         
