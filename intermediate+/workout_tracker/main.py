@@ -57,22 +57,22 @@ while is_on:
     print("2)Show entries of workouts.")
     print("3)Change the sheet endpoint URL from website Sheety.")
     print("4)Change the existing sheet name.")
-    print("5)Change the exercise endpoint URL.")
+    print("5)Change the exercise endpoint URL from website Nutritionix.")
     print("6)Change the current weight.")
     print("7)Change the current age.")
     print("8)Change the current gender.")
     print("9)Change the current height.")
     print("10)Show the current sheet endpoint URL from website Sheety.")
     print("11)Show the current sheet name.")
-    print("12)Show the exercise endpoint URL")
+    print("12)Show the exercise endpoint URL from website Nutritionix")
     print("13)Show the current weight.")
     print("14)Show the current age.")
     print("15)Show the current gender.")
     print("16)Show the current height.")
     print("17)Show calories burned(estimated) for given exercise(s).")
     print("18)Give physical informations again.")
-    print("19)Give accocunt informations again.")
-    print("20)Give sheet informations again.")
+    print("19)Give exercise endpoint informations again.")
+    print("20)Give sheet endpoint informations again.")
     print("21)Exit.")
     try:
         answer = int(input("Please choose an option: "))
@@ -109,13 +109,13 @@ while is_on:
         elif answer == 12:
             print(f"Current exercise URL: {my_tracker.get_exercise_url()}")
         elif answer == 13:
-            print(f"Current weight: {my_tracker.get_weight()}")
+            print(f"Current weight: {my_tracker.get_weight()} kg.")
         elif answer == 14:
             print(f"Current age: {my_tracker.get_age()} years old.")
         elif answer == 15:
             print(f"Current gender: {my_tracker.get_gender()}.")
         elif answer == 16:
-            print(f"Current height: {my_tracker.get_height()}cm.")
+            print(f"Current height: {my_tracker.get_height()} cm.")
         elif answer == 17:
             exercise = input("For which exercise(s) estimated calories would you wanna see(please describe the exercise(s)): ")
             my_tracker.get_calories(exercise=exercise)

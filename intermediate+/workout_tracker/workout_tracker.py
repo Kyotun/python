@@ -60,7 +60,7 @@ class WorkoutTracker():
                 }
             }
             sheet_response = requests.post(url=self.sheet_endpoint, json=sheet_inputs, headers=self.header_sheet)
-            sheet_exception_message = "Error by getting response from sheet. Please check the auth token and/or connection beetween website Sheety and to your google sheet."
+            sheet_exception_message = "Problem occured by getting response from sheet. Please check the auth token and/or connection beetween website Sheety and to your google sheet."
             self.check_response(response_code=sheet_response.status_code, exception_message=sheet_exception_message)
             print(f"Sheet response text: {sheet_response.text}, sheet response json: {sheet_response.json()}, sheet response status code: {sheet_response.status_code}")
     
@@ -160,7 +160,7 @@ class WorkoutTracker():
             "height_cm": self.height
         }
         exercise_response = requests.post(url=self.exercise_endpoint, json=parameters, headers=self.header_exercise)
-        exercise_exception_message = "Error by getting response from website Nutritionix. Please check APP ID or/and APP Key."
+        exercise_exception_message = "Problem occured by getting response from website Nutritionix. Please check APP ID or/and APP Key."
         self.check_response(response_code=exercise_response.status_code, exception_message=exercise_exception_message)
         exercise_list = self.check_exercise_data(exercise_data=exercise_response.json()["exercises"])
         return exercise_list
@@ -175,7 +175,7 @@ class WorkoutTracker():
         self.check_endpoints()
         sheet_response = requests.get(url=self.sheet_endpoint, headers=self.header_sheet)
         
-        sheet_exception_message = "Error by getting response from sheet. Please check the Auth token or/and connection betweenn website Sheety and google sheet."
+        sheet_exception_message = "Problem occured by getting response from sheet. Please check the Auth token or/and connection betweenn website Sheety and google sheet."
         self.check_response(response_code=sheet_response.status_code, exception_message=sheet_exception_message)
         
         self.sheet_name = self.check_sheet_name(sheet_name=self.sheet_name, input_message="Please enter the sheet name of yours from website Sheety: ")
