@@ -69,15 +69,14 @@ while is_on:
     print("14)Show the current age.")
     print("15)Show the current gender.")
     print("16)Show the current height.")
-    print("17)Give physical informations again.")
-    print("18)Give accocunt informations again.")
-    print("19)Give sheet informations again.")
-    print("20)Exit.")
+    print("17)Show calories burned(estimated) for given exercise(s).")
+    print("18)Give physical informations again.")
+    print("19)Give accocunt informations again.")
+    print("20)Give sheet informations again.")
+    print("21)Exit.")
     try:
         answer = int(input("Please choose an option: "))
         if answer == 1:
-            # First endpoints
-            # Second sheet name
             exercise = input("Which exercise(s) did you do?:")
             my_tracker.add_exercise(exercise=exercise)
         elif answer == 2:
@@ -118,12 +117,15 @@ while is_on:
         elif answer == 16:
             print(f"Current height: {my_tracker.get_height()}cm.")
         elif answer == 17:
-            physical_infos()
+            exercise = input("For which exercise(s) estimated calories would you wanna see(please describe the exercise(s)): ")
+            my_tracker.get_calories(exercise=exercise)
         elif answer == 18:
-            account_infos()
+            physical_infos()
         elif answer == 19:
-            sheet_infos()
+            account_infos()
         elif answer == 20:
+            sheet_infos()
+        elif answer == 21:
             is_on = False
             print("See you later!")
         else:

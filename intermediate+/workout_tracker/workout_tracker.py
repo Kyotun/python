@@ -21,10 +21,13 @@ class WorkoutTracker():
         self.weight:int = 0
         self.age:int = 0
         
-        self.headers:str= {"Authorization": "", 
-                           "x-app-id": "", 
-                           "x-app-key": "", 
-                           "content-type": "application/json"}
+        self.header_sheet:str={
+            "Authorization": "",
+        }
+        self.header_exercise:str= {
+            "x-app-id": "", 
+            "x-app-key": "",
+             }
         self.exercise_endpoint:str = EXERCISE_ENDPOINT
         self.sheet_endpoint:str = ""
         self.sheet_name:str = ""
@@ -56,7 +59,10 @@ class WorkoutTracker():
                     "calories": exercise["nf_calories"]
                 }
             }
-            sheet_response = requests.post(url=self.sheet_endpoint, json=sheet_inputs, headers=self.headers)
+            sheet_response = requests.post(url=self.sheet_endpoint, json=sheet_inputs, headers=self.header_sheet)
+            sheet_exception_message = "Error by getting response from sheet. Please check the auth token and/or connection beetween website Sheety and to your google sheet."
+            self.check_response(response_code=sheet_response.status_code, exception_message=sheet_exception_message)
+            print(f"Sheet response text: {sheet_response.text}, sheet response json: {sheet_response.json()}, sheet response status code: {sheet_response.status_code}")
     
     # CHECKERS
     def check_special_keys(self, special_key:str, exception_message:str) -> TrackerException or str:
@@ -76,12 +82,16 @@ class WorkoutTracker():
         return special_key
     
     def check_endpoints(self):
-        """Checks the URL of the exercise and sheet endpoints. If there is a empty one, asks user for the URL.
+        """Checks the URL of the exercise and sheet endpoints with help of check_url function.
         """
         exercise_endpoint_message = "Please give the URL of the exercise endpoint from website Nutritionix: "
         sheet_endpoint_message = "Please give the URL of the sheet endpoint from website Sheety: "
         self.sheet_endpoint = self.check_url(url=self.sheet_endpoint, input_message=sheet_endpoint_message)
         self.exercise_endpoint = self.check_url(url=self.exercise_endpoint, input_message=exercise_endpoint_message)
+    
+    def check_response(self, response_code:str, exception_message:str = "Error by getting successfull response from website."):
+        if response_code != 200:
+            raise TrackerException(message=exception_message)
         
     def check_url(self, url:str, input_message:str = "Given URL is empty, please give a valid URL: ") -> Exception or str:
         """If the given URL has the response 200, url will be returned. Otherwise an exception will be raised.
@@ -149,8 +159,10 @@ class WorkoutTracker():
             "weight_kg": self.weight,
             "height_cm": self.height
         }
-        response = requests.post(url=self.exercise_endpoint, json=parameters, headers=self.headers)
-        exercise_list = self.check_exercise_data(exercise_data=response.json()["exercises"])
+        exercise_response = requests.post(url=self.exercise_endpoint, json=parameters, headers=self.header_exercise)
+        exercise_exception_message = "Error by getting response from website Nutritionix. Please check APP ID or/and APP Key."
+        self.check_response(response_code=exercise_response.status_code, exception_message=exercise_exception_message)
+        exercise_list = self.check_exercise_data(exercise_data=exercise_response.json()["exercises"])
         return exercise_list
         
         
@@ -161,12 +173,26 @@ class WorkoutTracker():
         At the end, Prints the rows of the saved google sheet.
         """
         self.check_endpoints()
-        # RESPONSE TO BE CHECKED
-        response = requests.get(url=self.sheet_endpoint, headers=self.headers)
+        sheet_response = requests.get(url=self.sheet_endpoint, headers=self.header_sheet)
+        
+        sheet_exception_message = "Error by getting response from sheet. Please check the Auth token or/and connection betweenn website Sheety and google sheet."
+        self.check_response(response_code=sheet_response.status_code, exception_message=sheet_exception_message)
+        
         self.sheet_name = self.check_sheet_name(sheet_name=self.sheet_name, input_message="Please enter the sheet name of yours from website Sheety: ")
-        rows = response.json()[self.sheet_name]
+        rows = sheet_response.json()[self.sheet_name]
         for row in rows:
             print(f"Date: {row['date']}, exercise: {row['exercise']}, calorie: {row['calories']}")
+    
+    
+    def get_calories(self, exercise:str) -> None:
+        """Prints the exercise(s) and its/theirs calories burned(estimated).
+        
+        Args:
+            exercise (str): Description of the exercise(s) in natural language.
+        """
+        exercise_list = self.get_exercise_properties(exercise=exercise)
+        for exercise in exercise_list:
+            print(f"Exercise: {exercise['exercise']}, Calorie burned(estimated): {exercise['calories']}")
             
     def get_exercise_url(self) -> str:
         return self.exercise_endpoint
@@ -222,13 +248,13 @@ class WorkoutTracker():
         self.set_app_key(app_key=app_key)
             
     def set_app_id(self, app_id:str) -> None:
-        self.headers["x-app-id"] = self.check_special_keys(special_key=app_id, exception_message="Length of APP ID cannot be shorter or equal to 0.")
+        self.header_exercise["x-app-id"] = self.check_special_keys(special_key=app_id, exception_message="Length of APP ID cannot be shorter or equal to 0.")
     
     def set_app_key(self, app_key:str) -> None:
-        self.headers["x-app-key"] = self.check_special_keys(special_key=app_key, exception_message="Length of APP Key cannot be shorter or equal to 0.")
+        self.header_exercise["x-app-key"] = self.check_special_keys(special_key=app_key, exception_message="Length of APP Key cannot be shorter or equal to 0.")
         
     def set_auth_token(self, auth_token:str) -> None:
-        self.headers["Authorization"] = self.check_special_keys(special_key=auth_token, exception_message="Length of Auth token cannot be shorter or equal to 0.") 
+        self.header_sheet["Authorization"] = self.check_special_keys(special_key=auth_token, exception_message="Length of Auth token cannot be shorter or equal to 0.") 
     
     def set_exercise_url(self, exercise_url:str) -> None:
         """Checks the given exercise url if it's valid or not and then assigns 
