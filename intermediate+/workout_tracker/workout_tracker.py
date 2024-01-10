@@ -4,11 +4,7 @@ import datetime as dt
 from tracker_exception import TrackerException
 import validators
 
-APP_ID = os.environ.get("APP_ID_NUTRI")
-APP_KEY = os.environ.get("APP_KEY_NUTRI")
-AUTH_KEY_BEARER = os.environ.get("APP_AUTH_NUTRI")
 EXERCISE_ENDPOINT = "https://trackapi.nutritionix.com/v2/natural/exercise"
-SHEET_ENDPOINT = "https://api.sheety.co/04fb3676394a9afdc57d00b4868f30df/workouts/tabellenblatt1"
 
 class WorkoutTracker():
     """Tracker of workouts.
