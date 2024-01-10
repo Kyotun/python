@@ -81,7 +81,7 @@ class WorkoutTracker():
             raise TrackerException(message=exception_message)
         return special_key
     
-    def check_endpoints(self):
+    def check_endpoints(self) -> None:
         """Checks the URL of the exercise and sheet endpoints with help of check_url function.
         """
         exercise_endpoint_message = "Please give the URL of the exercise endpoint from website Nutritionix: "
@@ -89,11 +89,11 @@ class WorkoutTracker():
         self.sheet_endpoint = self.check_url(url=self.sheet_endpoint, input_message=sheet_endpoint_message)
         self.exercise_endpoint = self.check_url(url=self.exercise_endpoint, input_message=exercise_endpoint_message)
     
-    def check_response(self, response_code:str, exception_message:str = "Error by getting successfull response from website."):
+    def check_response(self, response_code:str, exception_message:str = "Error by getting successfull response from website.") -> TrackerException or None:
         if response_code != 200:
             raise TrackerException(message=exception_message)
         
-    def check_url(self, url:str, input_message:str = "Given URL is empty, please give a valid URL: ") -> Exception or str:
+    def check_url(self, url:str, input_message:str = "Given URL is empty, please give a valid URL: ") -> TrackerException or str:
         """If the given URL has the response 200, url will be returned. Otherwise an exception will be raised.
         If URL is empty string, it will be asked to user.
         """
@@ -103,7 +103,7 @@ class WorkoutTracker():
             raise TrackerException(message=f"{url} is not valid.")
         return url
     
-    def check_sheet_name(self, sheet_name:str, input_message:str = "Please enter the sheet name: ") -> str:
+    def check_sheet_name(self, sheet_name:str, input_message:str = "Please enter the sheet name: ") -> TrackerException or str:
         """If sheet name is empty, asks user for it.
         Sheet name from user and sheet name at the end of the sheet url should match.
         If they're not matching, an exception will be raised.
@@ -115,34 +115,34 @@ class WorkoutTracker():
             raise TrackerException(message=f"Given sheet name {sheet_name} doesn't match with sheet name of sheet endpoint url {sheet_name_from_sheet_endpoint}.")
         return sheet_name
             
-    def check_exercise_data(self, exercise_list:str) -> Exception or str:
+    def check_exercise_data(self, exercise_list:list) -> TrackerException or list:
         if len(exercise_list) == 0:
             raise TrackerException(message="There is no matching exercise data. Please try to write your exercise entry again.")
         return exercise_list
         
         
-    def check_weight(self, weight:int) -> int or Exception:
+    def check_weight(self, weight:int) -> TrackerException or int:
         if weight < 0 or weight > 200:
             raise TrackerException(message="Weight should be between 0-200")
         return weight
     
-    def check_gender(self, gender:str) -> str or Exception:
+    def check_gender(self, gender:str) -> TrackerException or str:
         if gender != "male" and gender != "female":
             raise TrackerException(message="Two genders only. Male and female.")
         return gender
     
-    def check_height(self, height:int) -> int or Exception:
+    def check_height(self, height:int) -> TrackerException or int:
         if height < 50 or height > 300:
             raise TrackerException(message="Height should be between 50-300.")
         return height
     
-    def check_age(self, age:int) -> int or Exception:
+    def check_age(self, age:int) -> TrackerException or int:
         if age < 0 or age > 120:
             raise TrackerException(message="Age should be between 0-120.")
         return age
             
     # GETTERS
-    def get_exercise_properties(self, exercise:str) -> dict:
+    def get_exercise_properties(self, exercise:str) -> list:
         """Takes exercise in format of natural language. Give it to the exercise endpoint website(Nutritionix) for evaluation.
         Takes the evaluations from the website and returns it as in list format.
 
@@ -162,6 +162,7 @@ class WorkoutTracker():
         exercise_response = requests.post(url=self.exercise_endpoint, json=parameters, headers=self.header_exercise)
         exercise_exception_message = "Problem occured by getting response from website Nutritionix. Please check APP ID or/and APP Key."
         self.check_response(response_code=exercise_response.status_code, exception_message=exercise_exception_message)
+        print(f"Exercise response = {exercise_response}, exercise response text: {exercise_response.text}, exer")
         exercise_list = self.check_exercise_data(exercise_data=exercise_response.json()["exercises"])
         return exercise_list
         
@@ -206,13 +207,13 @@ class WorkoutTracker():
     def get_gender(self) -> str:
         return self.gender
     
-    def get_height(self) -> str:
+    def get_height(self) -> int:
         return self.height
     
-    def get_weight(self) -> str:
+    def get_weight(self) -> int:
         return self.weight
     
-    def get_age(self) -> str:
+    def get_age(self) -> int:
         return self.age
     
     # SETTERS
