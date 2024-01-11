@@ -5,6 +5,7 @@ import datetime as dt
 
 TEQUILA_APP_KEY = os.environ.get("APP_KEY_TEQUILA")
 TEQUILA_ENDPOINT = "https://tequila-api.kiwi.com/v2"
+SHEETY_ENDPOINT = "https://api.sheety.co/04fb3676394a9afdc57d00b4868f30df/flightDeals/tabellenblatt1"
 
 class FlightData():
     def __init__(self, price:int,
@@ -21,7 +22,10 @@ class FlightData():
         self.to_airport = destination_airport
         self.out_date = out_date
         self.return_date = return_date
-    
+        self.header_sheety = {
+            "Authorization": ""
+        }
+        
     def get_price(self) -> int:
         return self.price
     
